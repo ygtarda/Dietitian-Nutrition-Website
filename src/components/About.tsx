@@ -1,6 +1,6 @@
 import React from 'react';
 import './About.css';
-
+//DENEME DENEME DENEME
 // FOTOĞRAFI BURADA İÇERİ AKTARIYORUZ
 // Eğer fotoğrafın adı farklıysa veya uzantısı .jpeg ise burayı düzelt!
 import profilFoto from '../assets/profil.png';
