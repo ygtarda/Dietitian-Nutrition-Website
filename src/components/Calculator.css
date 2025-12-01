@@ -1,0 +1,122 @@
+/* src/components/Calculator.css */
+
+.calculator-section {
+    padding: 60px 50px;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.calculator-section h2 {
+    font-size: 36px;
+    color: #6c7e3a;
+    margin-bottom: 10px;
+}
+
+.calculator-section p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 40px;
+}
+
+.calculators-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.calculator-card {
+    flex: 1;
+    max-width: 450px;
+    background-color: #f7f7f7;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    text-align: left;
+}
+
+.calculator-card h3 {
+    color: #7ab800;
+    margin-top: 0;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e9f5db;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+.calculator-card input,
+.calculator-card select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+.calc-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #7ab800;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.calc-button:hover {
+    background-color: #6c7e3a;
+}
+
+.result-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.vki-info-text {
+    font-size: 13px;
+    color: #888;
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* Mobil Ekranlar (900px ve altı) */
+@media (max-width: 900px) {
+    .calculators-container {
+        flex-direction: column;
+    }
+
+    .calculator-card {
+        max-width: 100%;
+        /* Mobil ekranı kaplar */
+    }
+}

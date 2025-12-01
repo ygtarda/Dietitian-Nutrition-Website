@@ -1,0 +1,406 @@
+/* src/components/AdminDashboard.css */
+
+/* Genel Sayfa Yapısı */
+.admin-dashboard {
+    padding: 40px 20px;
+    background-color: #f8fafc;
+    /* Çok açık gri/mavi modern arka plan */
+    min-height: calc(100vh - 80px);
+    /* Header hariç tam ekran */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-header {
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.admin-header h2 {
+    color: #1a202c;
+    font-size: 28px;
+    margin: 0;
+    font-weight: 700;
+}
+
+/* --- Modern Sekmeler (Tabs) --- */
+.admin-tabs {
+    background-color: #e2e8f0;
+    padding: 4px;
+    border-radius: 8px;
+    display: inline-flex;
+}
+
+.admin-tabs button {
+    padding: 8px 24px;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-tabs button:hover {
+    color: #334155;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.admin-tabs button.active {
+    background-color: white;
+    color: #0f172a;
+    /* Koyu metin rengi */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* İçerik Alanı */
+.admin-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* --- Grid Yapısı (Mesajlar ve Yorumlar) --- */
+.messages-list,
+.testimonials-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+/* --- Kart Tasarımı --- */
+.admin-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.admin-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border-color: #cbd5e0;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 8px;
+}
+
+.card-header strong {
+    color: #334155;
+    font-size: 16px;
+}
+
+.email {
+    font-size: 12px;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.rating {
+    color: #f59e0b;
+    /* Amber rengi yıldızlar */
+    font-size: 16px;
+}
+
+.message-body {
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    white-space: pre-wrap;
+}
+
+/* Silme Butonu */
+.delete-btn {
+    background-color: transparent;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+/* --- Blog Yönetimi Alanı (BUG FIX ve Tasarım) --- */
+.blog-management {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* İki eşit sütun */
+    gap: 40px;
+    align-items: start;
+    /* Üstten hizala */
+}
+
+/* Sol Taraf: Form Kutusu */
+.add-blog-container {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    /* Sayfa kaydırılsa bile form görünür kalsın */
+    top: 20px;
+}
+
+.add-blog-container h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #1e293b;
+    font-size: 20px;
+}
+
+.mini-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mini-form input,
+.mini-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    /* Sayfa fontunu kullan */
+    transition: border-color 0.2s;
+    background-color: #f8fafc;
+}
+
+/* --- KRİTİK DÜZELTME: Textarea Boyutlandırma --- */
+.mini-form textarea {
+    resize: vertical;
+    /* Sadece dikey büyüyebilir, yanlara taşamaz */
+    min-height: 120px;
+    max-height: 500px;
+    /* Çok fazla uzayıp ekranı kaplamasın */
+}
+
+.mini-form input:focus,
+.mini-form textarea:focus {
+    outline: none;
+    border-color: #7ab800;
+    /* Diyetisyen Yeşili */
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(122, 184, 0, 0.1);
+}
+
+.mini-form button {
+    background-color: #7ab800;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.mini-form button:hover {
+    background-color: #659602;
+}
+
+.mini-form button:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+}
+
+/* Sağ Taraf: Mevcut Bloglar */
+.existing-blogs h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #1e293b;
+    font-size: 20px;
+}
+
+.blog-mini-card {
+    flex-direction: row;
+    /* Yan yana hizala */
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border-left: 4px solid #7ab800;
+    /* Sol kenar çizgisi */
+}
+
+.blog-mini-card strong {
+    font-size: 15px;
+    color: #334155;
+}
+
+/* --- YENİ EKLENEN: YORUM CEVAPLAMA VE TARİH STİLLERİ --- */
+
+.rating-date {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.date {
+    font-size: 11px;
+    color: #999;
+    margin-top: 2px;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+/* Cevapla Butonu */
+.reply-btn {
+    background-color: #3b82f6;
+    /* Mavi */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.reply-btn:hover {
+    background-color: #2563eb;
+}
+
+/* Cevap Formu */
+.reply-form {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #e2e8f0;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.reply-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.reply-form textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.send-reply-btn {
+    background-color: #10b981;
+    /* Yeşil */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+}
+
+.send-reply-btn:hover {
+    background-color: #059669;
+}
+
+/* Admin Cevap Önizleme Kutusu */
+.admin-reply-preview {
+    background-color: #f0fdf4;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-size: 13px;
+    border-left: 4px solid #10b981;
+    color: #334155;
+}
+
+.admin-reply-preview strong {
+    display: block;
+    color: #065f46;
+    margin-bottom: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-reply-preview p {
+    margin: 0;
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 900px) {
+    .blog-management {
+        grid-template-columns: 1fr;
+        /* Mobilde alt alta */
+    }
+
+    .add-blog-container {
+        position: static;
+        /* Mobilde yapışkan olmasın */
+    }
+
+    .admin-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-tabs {
+        justify-content: space-between;
+    }
+
+    .admin-tabs button {
+        flex: 1;
+        padding: 10px;
+        font-size: 13px;
+        justify-content: center;
+    }
+}

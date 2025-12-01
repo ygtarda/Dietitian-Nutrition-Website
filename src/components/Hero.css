@@ -1,0 +1,98 @@
+/* src/components/Hero.css */
+
+.hero-section {
+    background-color: #e9f5db;
+    /* Açık yeşil arka plan */
+    padding: 80px 50px;
+    text-align: center;
+    color: #333;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    color: #6c7e3a;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 20px;
+    margin-bottom: 40px;
+    color: #555;
+}
+
+.main-cta-button {
+    padding: 15px 30px;
+    background-color: #7ab800;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.main-cta-button:hover {
+    background-color: #6c7e3a;
+}
+
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    /* Mevcut padding ve background özelliklerini koru */
+}
+
+.hero-content {
+    flex: 1;
+    text-align: left;
+    /* Yazıları sola hizala */
+}
+
+.hero-image-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    object-fit: cover;
+}
+
+/* Mobil uyumluluk */
+@media (max-width: 768px) {
+    .hero-section {
+        flex-direction: column-reverse;
+        /* Mobilde resim üstte olsun */
+        text-align: center;
+    }
+
+    .hero-content {
+        text-align: center;
+    }
+}
+
+/* Mobil Ekranlar (600px ve altı) */
+@media (max-width: 600px) {
+    .hero-section {
+        padding: 40px 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 32px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .main-cta-button {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+}

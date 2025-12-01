@@ -1,0 +1,398 @@
+/* src/components/Testimonials.css */
+
+.testimonials-section {
+    padding: 80px 20px;
+    background-color: #fdfefd;
+    /* Çok hafif, doğal bir kırık beyaz */
+    text-align: center;
+}
+
+.testimonials-header {
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+}
+
+.testimonials-header h2 {
+    font-size: 36px;
+    color: #2d3748;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.testimonials-header p {
+    font-size: 18px;
+    color: #718096;
+    margin-bottom: 30px;
+}
+
+/* --- ANA BUTON (Daha Doğal Renk) --- */
+.add-review-btn {
+    background-color: #6c7e3a;
+    /* Doğal Diyetisyen Yeşili */
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(108, 126, 58, 0.2);
+    /* Yumuşak gölge */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.add-review-btn:hover {
+    background-color: #5a6b2f;
+    /* Biraz daha koyu ton */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(108, 126, 58, 0.3);
+}
+
+/* --- FORM ALANI (Hizalama Düzeltildi) --- */
+.form-container {
+    max-width: 750px;
+    margin: 0 auto 50px auto;
+    animation: slideDown 0.4s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.testimonial-form {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.05);
+    /* Çok soft gölge */
+    border: 1px solid #f0f0f0;
+    text-align: left;
+}
+
+.testimonial-form h3 {
+    margin-top: 0;
+    color: #2d3748;
+    margin-bottom: 25px;
+    font-size: 22px;
+    border-bottom: 1px solid #edf2f7;
+    padding-bottom: 15px;
+}
+
+/* HİZALAMA DÜZELTMESİ: Flex yerine Grid */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* İki eşit sütun */
+    gap: 25px;
+    /* Aradaki boşluk */
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 8px;
+}
+
+/* Input ve Select ortak stili */
+.testimonial-form input,
+.testimonial-form select,
+.testimonial-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e2e8f0;
+    /* Çok hafif gri kenarlık */
+    border-radius: 8px;
+    font-size: 15px;
+    background-color: #fcfcfc;
+    transition: all 0.2s;
+    font-family: inherit;
+    color: #2d3748;
+    box-sizing: border-box;
+    /* Taşmayı engeller */
+}
+
+/* Yükseklikleri eşitlemek için */
+.testimonial-form input,
+.testimonial-form select {
+    height: 48px;
+}
+
+.testimonial-form textarea {
+    height: auto;
+    margin-bottom: 25px;
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Focus (Tıklanınca) Efekti */
+.testimonial-form input:focus,
+.testimonial-form select:focus,
+.testimonial-form textarea:focus {
+    outline: none;
+    border-color: #6c7e3a;
+    /* Ana renk */
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(108, 126, 58, 0.1);
+}
+
+.submit-comment-btn {
+    width: 100%;
+    background-color: #2d3748;
+    /* Koyu antrasit (Ciddiyet katar) */
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-comment-btn:hover:not(:disabled) {
+    background-color: #1a202c;
+}
+
+/* --- SIRALAMA FİLTRELERİ --- */
+.sort-container {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.sort-label {
+    font-weight: 600;
+    color: #718096;
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+.sort-btn {
+    padding: 8px 18px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.sort-btn:hover {
+    border-color: #6c7e3a;
+    color: #6c7e3a;
+}
+
+.sort-btn.active {
+    background-color: #6c7e3a;
+    color: white;
+    border-color: #6c7e3a;
+    box-shadow: 0 2px 6px rgba(108, 126, 58, 0.2);
+}
+
+/* --- KART TASARIMI --- */
+.reviews-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.review-card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    text-align: left;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.review-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.05);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+/* Avatar Rengi de Ana Renkle Uyumlu */
+.avatar-circle {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #6c7e3a, #5a6b2f);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.user-meta h4 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.meta-sub {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 3px;
+}
+
+.stars {
+    color: #f6ad55;
+    /* Daha yumuşak turuncu/altın */
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.dot {
+    color: #cbd5e0;
+    font-size: 12px;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #a0aec0;
+}
+
+.review-body p {
+    color: #4a5568;
+    line-height: 1.6;
+    font-size: 15px;
+    margin: 0 0 15px 0;
+}
+
+/* Yanıt Kutusu */
+.owner-response {
+    background-color: #f7fafc;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: auto;
+    border-left: 3px solid #6c7e3a;
+    /* Ana renk çizgisi */
+}
+
+.response-header {
+    margin-bottom: 5px;
+}
+
+.response-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6c7e3a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.owner-response p {
+    margin: 0;
+    font-size: 13px;
+    color: #4a5568;
+    line-height: 1.5;
+}
+
+.no-comments {
+    grid-column: 1 / -1;
+    color: #a0aec0;
+    font-style: italic;
+    margin-top: 20px;
+}
+
+/* Sayfalandırma */
+.pagination-controls {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+}
+
+.page-btn {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    color: #4a5568;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+    background-color: #6c7e3a;
+    color: white;
+    border-color: #6c7e3a;
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-info {
+    font-size: 14px;
+    color: #718096;
+    font-weight: 500;
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        /* Mobilde tek sütun */
+    }
+
+    .testimonials-section {
+        padding: 40px 15px;
+    }
+
+    .testimonial-form {
+        padding: 20px;
+    }
+
+    .sort-container {
+        gap: 8px;
+    }
+
+    .sort-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+}

@@ -1,0 +1,89 @@
+/* src/components/About.css */
+
+.about-section {
+    display: flex;
+    align-items: flex-start;
+    /* İçerikleri üstten hizala */
+    gap: 40px;
+    padding: 60px 50px;
+    background-color: #ffffff;
+}
+
+.about-image-container {
+    flex: 1;
+    /* Görüntü konteynerine esneklik ver */
+    max-width: 400px;
+    /* Görüntünün maksimum genişliğini sınırla */
+    overflow: hidden;
+    /* Taşan kısımları gizle */
+    border-radius: 20px;
+    /* Köşeleri yuvarla */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    /* Gölge ekle */
+}
+
+.about-image-container img {
+    width: 100%;
+    /* Görüntü konteyneri kadar genişle */
+    height: auto;
+    /* Orantılı yükseklik */
+    display: block;
+    /* Boşlukları önle */
+}
+
+.about-content {
+    flex: 2;
+    /* Metin içeriğine daha fazla alan ver */
+}
+
+.about-content h2 {
+    font-size: 36px;
+    color: #6c7e3a;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e9f5db;
+    padding-bottom: 10px;
+}
+
+.about-content h3 {
+    color: #7ab800;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.about-content p {
+    margin-bottom: 15px;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.about-content ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 15px;
+}
+
+.about-content li {
+    padding: 5px 0;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Mobil Ekranlar (768px ve altı) */
+@media (max-width: 768px) {
+    .about-section {
+        flex-direction: column;
+        /* Mobilde alt alta hizala */
+        padding: 40px 20px;
+        gap: 30px;
+    }
+
+    .about-image-container {
+        max-width: 100%;
+        /* Mobilde tam genişlik */
+    }
+
+    .about-content {
+        text-align: center;
+        /* Mobilde metni ortala */
+    }
+}

@@ -1,0 +1,178 @@
+/* src/components/Login.css */
+
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* Yumuşak yeşil degrade arka plan */
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    background-color: #f4f7f6;
+    padding: 20px;
+}
+
+.login-card {
+    background-color: white;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 16px;
+    /* Modern, yumuşak gölge efekti */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05),
+        0 5px 10px rgba(0, 0, 0, 0.01);
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-header {
+    margin-bottom: 30px;
+}
+
+.lock-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+    display: inline-block;
+    background-color: #f0fdf4;
+    padding: 15px;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.login-header h2 {
+    color: #2d3748;
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.login-header p {
+    color: #718096;
+    font-size: 14px;
+    margin: 0;
+}
+
+.login-form .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    outline: none;
+    background-color: #f7fafc;
+}
+
+.login-form input:focus {
+    border-color: #7ab800;
+    /* Diyetisyen yeşili */
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(122, 184, 0, 0.1);
+}
+
+.login-error-message {
+    background-color: #fff5f5;
+    color: #c53030;
+    border-left: 4px solid #c53030;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.login-submit-button {
+    width: 100%;
+    padding: 14px;
+    background-color: #7ab800;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-submit-button:hover {
+    background-color: #6c7e3a;
+    transform: translateY(-1px);
+}
+
+.login-submit-button:active {
+    transform: translateY(0);
+}
+
+.login-submit-button:disabled {
+    background-color: #a0aec0;
+    cursor: not-allowed;
+}
+
+.login-footer {
+    margin-top: 25px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 20px;
+}
+
+.back-link {
+    background: none;
+    border: none;
+    color: #718096;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: #2d3748;
+    text-decoration: underline;
+}
+
+/* Yükleniyor animasyonu (Spinner) */
+.loading-spinner {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 3px solid white;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

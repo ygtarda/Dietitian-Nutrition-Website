@@ -1,0 +1,31 @@
+/* src/index.css */
+
+/* Tüm öğelerde varsayılan stil sıfırlama */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
+
+  /* YUMUŞAK KAYDIRMA KURALI */
+  scroll-behavior: smooth;
+}
+
+/* Linkler için genel ayar */
+a {
+  text-decoration: none;
+}
+
+/* Main alanı için içerik genişliği kısıtlaması (isteğe bağlı) */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 0;
+}

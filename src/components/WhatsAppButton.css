@@ -1,0 +1,64 @@
+/* src/components/WhatsAppButton.css */
+
+.whatsapp-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25D366;
+    /* WhatsApp Yeşili */
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    cursor: pointer;
+    z-index: 9999;
+    /* Her şeyin üstünde dursun */
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: pulse 2s infinite;
+}
+
+.whatsapp-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+.whatsapp-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.whatsapp-text {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+/* Nabız Animasyonu (Dikkat çekmesi için) */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}
+
+/* Mobilde sadece ikon görünsün, yazı yer kaplamasın */
+@media (max-width: 600px) {
+    .whatsapp-text {
+        display: none;
+    }
+
+    .whatsapp-container {
+        padding: 12px;
+        border-radius: 50%;
+    }
+}

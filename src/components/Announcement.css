@@ -1,0 +1,44 @@
+/* src/components/Announcement.css */
+
+.announcement-bar {
+    background-color: #f0ad4e;
+    /* Sarı/Turuncu renkli uyarı */
+    color: white;
+    padding: 10px 50px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 15px;
+    position: relative;
+}
+
+.announcement-message {
+    margin: 0;
+    flex-grow: 1;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 20px;
+    line-height: 1;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.close-button:hover {
+    opacity: 1;
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 600px) {
+    .announcement-bar {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}

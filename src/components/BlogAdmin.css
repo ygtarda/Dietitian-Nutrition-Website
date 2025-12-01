@@ -1,0 +1,95 @@
+/* src/components/BlogAdmin.css */
+
+.admin-section {
+    padding: 60px 50px;
+    background-color: #f0f4f8;
+    min-height: 80vh;
+}
+
+.admin-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.admin-container h2 {
+    color: #6c7e3a;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 32px;
+}
+
+.admin-container p {
+    text-align: center;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.admin-form .form-group {
+    margin-bottom: 20px;
+}
+
+.admin-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.admin-form input,
+.admin-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus {
+    border-color: #7ab800;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(122, 184, 0, 0.2);
+}
+
+.admin-submit-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #7ab800;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 30px;
+}
+
+.admin-submit-button:hover {
+    background-color: #6c7e3a;
+}
+
+/* src/components/BlogAdmin.css - EN SONA EKLENECEK */
+
+/* Mobil Ekranlar (600px ve altı) */
+@media (max-width: 600px) {
+    .admin-section {
+        padding: 30px 10px;
+    }
+
+    .admin-container {
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .admin-container h2 {
+        font-size: 24px;
+    }
+}
