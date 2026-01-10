@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import './Testimonials.css';
 import { db } from '../firebase';
-import { collection, addDoc, onSnapshot, query, orderBy, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, query, Timestamp } from 'firebase/firestore';
 
 interface Testimonial {
     id: string;
