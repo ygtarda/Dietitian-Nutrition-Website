@@ -1,87 +1,104 @@
 /* src/components/Hero.css */
 
 .hero-section {
-    border-radius: 2%;
-    background-color: #e9f5db;
-    /* Açık yeşil arka plan */
-    padding: 80px 50px;
-    text-align: center;
-    color: #333;
+    /* GÜNCELLEME: Tam ekran yerine genişliği sınırlayıp ortalıyoruz */
+    max-width: 1200px;
+    margin: 0 auto;
+    /* Ortala */
+    padding: 60px 20px;
+    /* İç boşluk */
+
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    /* Sol taraf (yazı) biraz daha geniş */
+    align-items: center;
+    gap: 60px;
+    min-height: 500px;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .hero-content h1 {
     font-size: 48px;
-    color: #6c7e3a;
+    color: #1a202c;
+    /* Koyu Antrasit */
+    line-height: 1.2;
     margin-bottom: 20px;
+    font-weight: 800;
+    letter-spacing: -1px;
 }
 
 .hero-content p {
-    font-size: 20px;
-    margin-bottom: 40px;
-    color: #555;
+    font-size: 18px;
+    color: #4a5568;
+    line-height: 1.7;
+    margin-bottom: 35px;
+    max-width: 500px;
 }
 
+/* Aksiyon Butonu */
 .main-cta-button {
-    padding: 15px 30px;
-    background-color: #7ab800;
+    background-color: #6c7e3a;
+    /* Diyetisyen Yeşili */
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
+    padding: 16px 36px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 50px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(108, 126, 58, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .main-cta-button:hover {
-    background-color: #6c7e3a;
+    background-color: #5a6b2f;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(108, 126, 58, 0.4);
 }
 
-.hero-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    /* Mevcut padding ve background özelliklerini koru */
-}
-
-.hero-content {
-    flex: 1;
-    text-align: left;
-    /* Yazıları sola hizala */
-}
-
+/* Görsel Alanı */
 .hero-image-wrapper {
-    flex: 1;
-    display: flex;
-    justify-content: center;
+    position: relative;
+    border-radius: 30px;
+    /* Dekoratif bir arka plan şekli veya gölge */
+    box-shadow: 20px 20px 0px rgba(108, 126, 58, 0.1);
+    overflow: hidden;
+    line-height: 0;
+    /* Resim altı boşluğu engellemek için */
 }
 
 .hero-img {
     width: 100%;
-    max-width: 500px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    height: auto;
     object-fit: cover;
+    border-radius: 30px;
+    transition: transform 0.5s ease;
 }
 
-/* Mobil uyumluluk */
-@media (max-width: 768px) {
+.hero-image-wrapper:hover .hero-img {
+    transform: scale(1.03);
+}
+
+/* --- MOBİL UYUMLULUK --- */
+@media (max-width: 900px) {
     .hero-section {
-        flex-direction: column-reverse;
-        /* Mobilde resim üstte olsun */
+        grid-template-columns: 1fr;
+        /* Alt alta diz */
         text-align: center;
+        padding: 40px 20px;
+        gap: 40px;
     }
 
     .hero-content {
-        text-align: center;
-    }
-}
-
-/* Mobil Ekranlar (600px ve altı) */
-@media (max-width: 600px) {
-    .hero-section {
-        padding: 40px 20px;
+        align-items: center;
+        /* Mobilde ortala */
     }
 
     .hero-content h1 {
@@ -90,10 +107,13 @@
 
     .hero-content p {
         font-size: 16px;
+        max-width: 100%;
     }
 
-    .main-cta-button {
-        padding: 12px 20px;
-        font-size: 16px;
+    .hero-image-wrapper {
+        box-shadow: 10px 10px 0px rgba(108, 126, 58, 0.1);
+        max-width: 400px;
+        margin: 0 auto;
+        /* Resmi ortala */
     }
 }

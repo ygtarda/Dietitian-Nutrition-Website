@@ -1,10 +1,12 @@
 /* src/components/Services.css */
 
 .services-section {
-    border-radius: 5px;
-    padding: 60px 20px;
-    text-align: center;
-    background-color: #f9f9f9;
+    padding: 80px 20px 20px 20px;
+    background-color: #fcfdfc;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    min-height: 600px;
 }
 
 .services-section h2 {

@@ -3,9 +3,6 @@
 import React from 'react';
 import './About.css';
 
-// DİKKAT: Import satırını sildik!
-// Resim artık 'public/profil.jpg' konumunda olmalı.
-
 interface AboutProps {
     egitimBilgisi: string;
 }
@@ -15,22 +12,18 @@ const About: React.FC<AboutProps> = ({ egitimBilgisi }) => {
         <section id="hakkimda" className="about-section">
             <div className="about-container">
 
+                {/* --- GÖRSEL ALANI --- */}
                 <div className="about-image-wrapper">
                     <img
-                        /* VITE/REACT İÇİN EN GARANTİ YOL: */
-                        /* Başındaki / işareti 'public' klasörünü temsil eder */
                         src="/profil.jpg"
                         alt="Uzman Diyetisyen Gül Ödek"
                         className="about-img"
-                        onError={(e) => {
-                            // Eğer resim hala yoksa, konsola hata basar ve stok fotoyu koyar
-                            console.error("Resim yüklenemedi. Lütfen 'public/profil.jpg' dosyasını kontrol et.");
-                            e.currentTarget.src = "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=800&auto=format&fit=crop";
-                        }}
+                        loading="lazy"
                     />
                     <div className="image-frame"></div>
                 </div>
 
+                {/* --- METİN ALANI --- */}
                 <div className="about-content">
                     <span className="subtitle">TANIŞALIM</span>
                     <h2>Uzman Diyetisyen Gül Ödek</h2>
@@ -48,6 +41,7 @@ const About: React.FC<AboutProps> = ({ egitimBilgisi }) => {
                         yemekle ilişkinizi iyileştirmek ve hayat boyu sürecek sağlıklı alışkanlıklar kazandırmaktır.
                     </p>
 
+                    {/* --- İSTATİSTİKLER --- */}
                     <div className="stats-row">
                         <div className="stat-item">
                             <span className="stat-number">5+</span>

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import './BodyAnalysis.css';
-import { useNavigate } from 'react-router-dom'; // YENİ: Sayfa yönlendirmesi için
+import { useNavigate } from 'react-router-dom';
 
 interface Question {
     id: number;
@@ -29,7 +29,7 @@ const questions: Question[] = [
 ];
 
 const BodyAnalysis: React.FC = () => {
-    const navigate = useNavigate(); // YENİ: Yönlendirme kancası
+    const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(0);
     const [answers, setAnswers] = useState<string[]>([]);
     const [showResult, setShowResult] = useState(false);
@@ -78,10 +78,13 @@ const BodyAnalysis: React.FC = () => {
         setRecommendation(null);
     };
 
-    // YENİ: Butona basınca iletişim sayfasına git
+    // GÜNCELLENEN KISIM: Yönlendirme ve Yukarı Kaydırma
     const handleContactRedirect = () => {
-        navigate('/iletisim'); // İletişim sayfasına yönlendir
-        window.scrollTo(0, 0); // Sayfanın en üstünden başlat
+        navigate('/iletisim');
+        // Sayfa geçişi tamamlandıktan sonra ekranı en tepeye kaydır
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+        }, 100);
     };
 
     return (
@@ -127,7 +130,6 @@ const BodyAnalysis: React.FC = () => {
                         <p className="result-desc">{recommendation?.desc}</p>
 
                         <div className="result-actions">
-                            {/* Güncellenen Buton */}
                             <button className="contact-btn" onClick={handleContactRedirect}>
                                 Paket Hakkında Bilgi Al
                             </button>

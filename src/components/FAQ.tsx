@@ -3,65 +3,63 @@
 import React, { useState } from 'react';
 import './FAQ.css';
 
-interface FaqItem {
-    id: number;
-    question: string;
-    answer: string;
-}
-
-const faqData: FaqItem[] = [
+const faqData = [
     {
-        id: 1,
-        question: 'Diyet programları kişiye özel midir?',
-        answer: 'Evet, tüm beslenme programları yaşınıza, sağlık durumunuza, yaşam tarzınıza, fiziksel aktivite düzeyinize ve hedeflerinize özel olarak hazırlanır. Hazır listeler asla kullanılmaz.',
+        question: "Online diyet süreci nasıl işliyor?",
+        answer: "İlk görüşmemizde detaylı bir anamnez alarak yaşam tarzınızı, beslenme alışkanlıklarınızı ve sağlık durumunuzu analiz ediyoruz. Ardından size özel hazırlanan beslenme programını WhatsApp üzerinden iletiyor ve haftalık takiplerle süreci yönetiyoruz."
     },
     {
-        id: 2,
-        question: 'Online diyet nasıl işliyor?',
-        answer: 'Online diyet, ilk görüşmenin ardından size özel hazırlanan programın e-posta veya uygulama üzerinden iletilmesiyle başlar. Haftalık online görüşmelerle ilerleme takip edilir ve program güncellenir.',
+        question: "Listeler kişiye özel mi hazırlanıyor?",
+        answer: "Kesinlikle! Her bireyin metabolizması, kan değerleri, sevdiği/sevmediği besinler ve yaşam koşulları farklıdır. Bu yüzden hazır listeler yerine tamamen size ve hedeflerinize uygun, sürdürülebilir programlar hazırlıyoruz."
     },
     {
-        id: 3,
-        question: 'Diyetisyen takibi ne kadar sürer?',
-        answer: 'Bu süre, hedeflerinize ve vücudunuzun programa verdiği yanıta göre değişir. Ortalama olarak 8 ila 12 hafta arasında sağlıklı sonuçlar gözlemlenmeye başlar.',
+        question: "Kaçamak yaparsam ne olur?",
+        answer: "Diyet bir yasaklar bütünü değil, dengeleme sanatıdır. Kaçamak yaptığınızda suçluluk hissetmek yerine, bir sonraki öğünde veya günde nasıl dengeleyebileceğimizi konuşarak sürece kaldığımız yerden devam ediyoruz."
     },
+    {
+        question: "Sadece kilo vermek için mi başvurabilirim?",
+        answer: "Hayır. Kilo alma, kilo koruma, hastalıklarda beslenme (diyabet, tansiyon vb.), sporcu beslenmesi, gebelik ve emzirme dönemi beslenmesi gibi birçok alanda profesyonel danışmanlık hizmeti sunuyoruz."
+    },
+    {
+        question: "Ödemeyi nasıl yapabilirim?",
+        answer: "Randevu oluşturduktan sonra size ileteceğimiz IBAN numarasına havale/EFT yoluyla ödemenizi güvenle gerçekleştirebilirsiniz."
+    }
 ];
 
 const FAQ: React.FC = () => {
-    // Hangi sorunun açık olduğunu tutan state
-    const [openId, setOpenId] = useState<number | null>(null);
+    const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-    // Akordeon (accordion) işlevi
-    const toggleFaq = (id: number) => {
-        // Eğer aynı soruya tıklanırsa kapat, değilse aç
-        setOpenId(openId === id ? null : id);
+    const toggleFAQ = (index: number) => {
+        setActiveIndex(activeIndex === index ? null : index);
     };
 
     return (
         <section id="sss" className="faq-section">
-            <h2>Sıkça Sorulan Sorular</h2>
-
             <div className="faq-container">
-                {faqData.map((item) => (
-                    <div key={item.id} className={`faq-item ${openId === item.id ? 'open' : ''}`}>
-                        {/* Soru Başlığı */}
-                        <button
-                            className="faq-question-button"
-                            onClick={() => toggleFaq(item.id)}
-                            aria-expanded={openId === item.id}
-                        >
-                            {item.question}
-                            <span className="toggle-icon">{openId === item.id ? '−' : '+'}</span>
-                        </button>
+                <div className="faq-header">
+                    <h2>Sıkça Sorulan Sorular</h2>
+                    <p>Aklınıza takılan soruların cevaplarını burada bulabilirsiniz.</p>
+                </div>
 
-                        {/* Cevap İçeriği (Sadece açıksa görünür) */}
-                        {openId === item.id && (
-                            <div className="faq-answer-content">
-                                <p>{item.answer}</p>
+                <div className="faq-list">
+                    {faqData.map((item, index) => (
+                        <div
+                            key={index}
+                            className={`faq-item ${activeIndex === index ? 'active' : ''}`}
+                            onClick={() => toggleFAQ(index)}
+                        >
+                            <div className="faq-question">
+                                <h3>{item.question}</h3>
+                                <span className="faq-icon">{activeIndex === index ? '−' : '+'}</span>
                             </div>
-                        )}
-                    </div>
-                ))}
+                            <div className="faq-answer">
+                                <div className="answer-content">
+                                    <p>{item.answer}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         </section>
     );

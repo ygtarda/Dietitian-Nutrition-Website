@@ -1,44 +1,43 @@
 /* src/components/Announcement.css */
-
 .announcement-bar {
-    background-color: #f0ad4e;
-    /* Sarı/Turuncu renkli uyarı */
+    background-color: #2d3748;
+    /* Koyu antrasit */
     color: white;
-    padding: 10px 50px;
     text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 500;
-    font-size: 15px;
+    padding: 10px 40px;
     position: relative;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1002;
+    /* Header'dan daha üstte */
 }
 
-.announcement-message {
-    margin: 0;
-    flex-grow: 1;
+.announcement-content {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.close-button {
+.close-announcement {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     color: white;
     font-size: 20px;
     cursor: pointer;
-    margin-left: 20px;
-    line-height: 1;
     opacity: 0.8;
-    transition: opacity 0.2s;
 }
 
-.close-button:hover {
+.close-announcement:hover {
     opacity: 1;
 }
 
-/* Mobil Uyumluluk */
+/* Mobilde yazı boyutunu küçült */
 @media (max-width: 600px) {
     .announcement-bar {
-        padding: 10px 15px;
-        font-size: 14px;
+        font-size: 12px;
+        padding: 10px 30px;
     }
 }

@@ -67,6 +67,14 @@ const Calculator: React.FC = () => {
 
         setKaloriSonuc(Math.round(TDEE));
 
+        // Formu Temizle
+        setCalorieFormData({
+            cinsiyet: '',
+            kilo: '',
+            boy: '',
+            yas: '',
+            aktivite: '',
+        });
     };
 
     // --- VKİ Hesaplama Fonksiyonları ---
@@ -112,6 +120,10 @@ const Calculator: React.FC = () => {
         }
 
         setVkiSonuc(`VKİ değeriniz: ${vkiRounded} (${kategori})`);
+
+        // Formu Temizle
+        setVkiKilo('');
+        setVkiBoy('');
     };
 
     // --- Genel JSX/HTML Yapısı ---
@@ -139,17 +151,44 @@ const Calculator: React.FC = () => {
 
                         <div className="form-group">
                             <label htmlFor="kilo">Kilo (kg):</label>
-                            <input type="number" name="kilo" id="kilo" value={calorieFormData.kilo} onChange={handleCalorieChange} required min="30" />
+                            <input
+                                type="number"
+                                name="kilo"
+                                id="kilo"
+                                value={calorieFormData.kilo}
+                                onChange={handleCalorieChange}
+                                required
+                                min="30"
+                                placeholder="Örn: 70"
+                            />
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="boy">Boy (cm):</label>
-                            <input type="number" name="boy" id="boy" value={calorieFormData.boy} onChange={handleCalorieChange} required min="100" />
+                            <input
+                                type="number"
+                                name="boy"
+                                id="boy"
+                                value={calorieFormData.boy}
+                                onChange={handleCalorieChange}
+                                required
+                                min="100"
+                                placeholder="Örn: 170"
+                            />
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="yas">Yaş:</label>
-                            <input type="number" name="yas" id="yas" value={calorieFormData.yas} onChange={handleCalorieChange} required min="15" />
+                            <input
+                                type="number"
+                                name="yas"
+                                id="yas"
+                                value={calorieFormData.yas}
+                                onChange={handleCalorieChange}
+                                required
+                                min="15"
+                                placeholder="Örn: 25"
+                            />
                         </div>
 
                         <div className="form-group">
@@ -181,12 +220,30 @@ const Calculator: React.FC = () => {
                     <form onSubmit={calculateBMI}>
                         <div className="form-group">
                             <label htmlFor="vkiKilo">Kilo (kg):</label>
-                            <input type="number" name="vkiKilo" id="vkiKilo" value={vkiKilo} onChange={handleVkiChange} required min="30" />
+                            <input
+                                type="number"
+                                name="vkiKilo"
+                                id="vkiKilo"
+                                value={vkiKilo}
+                                onChange={handleVkiChange}
+                                required
+                                min="30"
+                                placeholder="Örn: 65"
+                            />
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="vkiBoy">Boy (cm):</label>
-                            <input type="number" name="vkiBoy" id="vkiBoy" value={vkiBoy} onChange={handleVkiChange} required min="100" />
+                            <input
+                                type="number"
+                                name="vkiBoy"
+                                id="vkiBoy"
+                                value={vkiBoy}
+                                onChange={handleVkiChange}
+                                required
+                                min="100"
+                                placeholder="Örn: 165"
+                            />
                         </div>
 
                         <button type="submit" className="calc-button">VKİ Hesapla</button>

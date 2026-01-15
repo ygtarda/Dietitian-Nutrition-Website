@@ -5,22 +5,23 @@
     background-color: #ffffff;
     border-bottom: 1px solid #e2e8f0;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-    /* Header'ı sayfaya çiviliyoruz */
-    position: fixed;
+
+    /* GÜNCELLEME: Fixed yerine Sticky yapıldı */
+    /* Böylece en tepedeyken duyuru görünür, kaydırınca header yapışır */
+    position: -webkit-sticky;
+    /* Safari desteği için */
+    position: sticky;
     top: 0;
+
     left: 0;
     width: 100%;
     z-index: 1000;
-    /* En üstte */
+    /* En üst katman */
     height: 70px;
-    /* Sabit yükseklik verelim ki hesaplama kolay olsun */
     display: flex;
     align-items: center;
+    /* İkonun kesilmesini önlemek için overflow kısıtlaması kaldırıldı */
 }
-
-/* Sayfanın geri kalanının header altında kalmaması için body'e padding verilmeli */
-/* Ancak App.tsx yapısında main'e margin-top vermek daha kolay olabilir. */
-/* Şimdilik bu CSS sadece header'ı düzeltir. */
 
 .header.admin-mode {
     background-color: #f8fafc;
@@ -36,6 +37,10 @@
     align-items: center;
     box-sizing: border-box;
     height: 100%;
+    position: relative;
+    background-color: inherit;
+    /* Header rengini al */
+    z-index: 1001;
 }
 
 /* --- LOGO --- */
@@ -158,8 +163,9 @@
     display: none;
     cursor: pointer;
     padding: 10px;
+    margin-right: -10px;
+    position: relative;
     z-index: 1002;
-    /* Menüden daha üstte olmalı */
 }
 
 .nav-icon {
@@ -215,40 +221,41 @@
     }
 
     .nav-menu {
-        /* FIXED İLE EKRANA SABİTLİYORUZ */
-        position: fixed;
-        top: 70px;
-        /* Header yüksekliği kadar aşağıdan başla */
+        /* Sticky header ile uyumlu olması için absolute kullanıyoruz */
+        /* Böylece menü her zaman header'ın hemen altından başlar */
+        position: absolute;
+        top: 100%;
         left: 0;
         width: 100%;
-        height: calc(100vh - 70px);
-        /* Ekranın geri kalanı */
+        height: 100vh;
+        /* Ekranı kapla */
 
         background-color: white;
         flex-direction: column;
         justify-content: flex-start;
-        /* İçeriği üstten başlat */
         align-items: center;
         padding-top: 20px;
-        padding-bottom: 40px;
+        padding-bottom: 50px;
 
-        /* Geçiş Efekti */
-        transform: translateX(100%);
-        /* Varsayılan olarak sağda gizli */
-        transition: transform 0.3s ease-in-out;
+        /* Animasyon */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 
         z-index: 999;
-        /* Header'ın altında */
         border-top: 1px solid #f1f5f9;
 
-        /* Menü içi taşarsa kaydırabilsin diye */
+        /* İçerik taşarsa menü içinde kaydır */
         overflow-y: auto;
+        overscroll-behavior: contain;
     }
 
     /* Menü Açıkken */
     .nav-menu.active {
-        transform: translateX(0);
-        /* Ekrana getir */
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
     }
 
     .nav-menu a {
@@ -258,11 +265,11 @@
         border-bottom: 1px solid #f8fafc;
         display: block;
         font-size: 18px;
-        /* Mobilde daha büyük font */
         color: #2d3748;
     }
 
     .randevu-button {
+        display: block;
         width: 80%;
         margin-top: 30px;
         padding: 15px;

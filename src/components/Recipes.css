@@ -3,17 +3,22 @@
 .recipes-section {
     padding: 80px 20px;
     background-color: #fcfdfc;
-    text-align: center;
-    width: 100%;
-    box-sizing: border-box;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
     min-height: 600px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
 }
 
 .section-header h2 {
     font-size: 36px;
-    color: #6c7e3a;
-    margin-bottom: 10px;
-    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 15px;
+    font-weight: 800;
 }
 
 .section-header p {
@@ -188,6 +193,13 @@
     font-size: 20px;
     font-weight: 700;
     line-height: 1.4;
+    transition: color 0.3s ease;
+    /* Renk geçiş efekti eklendi */
+}
+
+/* GÜNCELLEME: Hover durumunda başlık rengi değişimi */
+.recipe-card:hover .recipe-info h3 {
+    color: #7ab800;
 }
 
 .view-recipe-btn {
@@ -394,16 +406,13 @@
     line-height: 1.2;
 }
 
-/* --- DÜZELTME BURADA --- */
 .recipe-details {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
     gap: 50px;
     width: 100%;
-    /* Genişlik garanti */
 }
 
-/* Grid içindeki elemanların taşmasını engellemek için min-width: 0 çok kritik */
 .recipe-details>div {
     min-width: 0;
 }
@@ -443,12 +452,9 @@
     line-height: 1.9;
     color: #475569;
     font-size: 17px;
-
-    /* Uzun metinlerin aşağı kayması için gerekli ayarlar */
     white-space: pre-wrap;
     word-break: break-word;
     overflow-wrap: break-word;
     max-width: 100%;
     display: block;
-    /* Blok element gibi davran */
 }

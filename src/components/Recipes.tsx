@@ -1,17 +1,20 @@
 // src/components/Recipes.tsx
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Recipes.css';
 import type { Recipe } from '../App';
 
 interface RecipesProps {
     recipes: Recipe[];
+    isHome?: boolean;
 }
 
 // SAYFA BAŞINA 3 TARİF (Tek Satır)
 const RECIPES_PER_PAGE = 3;
 
-const Recipes: React.FC<RecipesProps> = ({ recipes }) => {
+const Recipes: React.FC<RecipesProps> = ({ recipes, isHome = false }) => {
+    const navigate = useNavigate();
     const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
     const [activeFilter, setActiveFilter] = useState<string>('Tümü');
 
@@ -20,14 +23,19 @@ const Recipes: React.FC<RecipesProps> = ({ recipes }) => {
 
     const categories = ['Tümü', 'Tatlı', 'İçecek', 'Salata', 'Ana Yemek', 'Atıştırmalık'];
 
-    // Scroll Kilitleme
+    // --- GÜÇLENDİRİLMİŞ SCROLL KİLİTLEME ---
     useEffect(() => {
         if (selectedRecipe) {
             document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
         } else {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
         }
-        return () => { document.body.style.overflow = 'unset'; };
+        return () => {
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+        };
     }, [selectedRecipe]);
 
     // 1. Önce Filtreleme Yap
@@ -35,19 +43,39 @@ const Recipes: React.FC<RecipesProps> = ({ recipes }) => {
         ? recipes
         : recipes.filter(r => r.category === activeFilter);
 
-    // 2. Filtrelenmiş Sonuçları Sayfalara Böl
-    const indexOfLastRecipe = currentPage * RECIPES_PER_PAGE;
-    const indexOfFirstRecipe = indexOfLastRecipe - RECIPES_PER_PAGE;
-    const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+    // 2. Görüntülenecek Listeyi Belirle
+    let displayRecipes = filteredRecipes;
+
+    if (isHome) {
+        displayRecipes = filteredRecipes.slice(0, 3);
+    } else {
+        const indexOfLastRecipe = currentPage * RECIPES_PER_PAGE;
+        const indexOfFirstRecipe = indexOfLastRecipe - RECIPES_PER_PAGE;
+        displayRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+    }
+
     const totalPages = Math.ceil(filteredRecipes.length / RECIPES_PER_PAGE);
 
-    // Kategori değişince 1. sayfaya dön
     const handleFilterChange = (cat: string) => {
         setActiveFilter(cat);
         setCurrentPage(1);
     };
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+    // YARDIMCI: Görsel URL'sini güvenli alma ve kontrol etme
+    const getRecipeImage = (recipe: any) => {
+        // Olası tüm alan isimlerini kontrol et
+        const imgUrl = recipe.image || recipe.imageUrl || recipe.img || recipe.url;
+
+        // Eğer geçerli bir link varsa onu döndür
+        if (imgUrl && typeof imgUrl === 'string' && imgUrl.trim() !== '') {
+            return imgUrl;
+        }
+
+        // Yoksa varsayılan yüksek kaliteli bir yemek görseli döndür
+        return "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop";
+    };
 
     return (
         <section id="tarifler" className="recipes-section">
@@ -56,29 +84,35 @@ const Recipes: React.FC<RecipesProps> = ({ recipes }) => {
                 <p>Lezzetten ödün vermeden formda kalmanın sırları.</p>
             </div>
 
-            <div className="recipe-filters">
-                {categories.map(cat => (
-                    <button
-                        key={cat}
-                        className={activeFilter === cat ? 'active' : ''}
-                        onClick={() => handleFilterChange(cat)}
-                    >
-                        {cat}
-                    </button>
-                ))}
-            </div>
+
+            {!isHome && (
+                <div className="recipe-filters">
+                    {categories.map(cat => (
+                        <button
+                            key={cat}
+                            className={activeFilter === cat ? 'active' : ''}
+                            onClick={() => handleFilterChange(cat)}
+                        >
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+            )}
 
             <div className="recipes-grid">
-                {currentRecipes.length === 0 ? (
+                {displayRecipes.length === 0 ? (
                     <p className="no-recipes-msg">Bu kategoride henüz tarif eklenmemiş.</p>
                 ) : (
-                    currentRecipes.map(recipe => (
+                    displayRecipes.map(recipe => (
                         <div key={recipe.id} className="recipe-card" onClick={() => setSelectedRecipe(recipe)}>
                             <div className="recipe-image">
                                 <img
-                                    src={recipe.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop"}
+                                    src={getRecipeImage(recipe)}
                                     alt={recipe.title}
-                                    onError={(e) => { e.currentTarget.src = "https://via.placeholder.com/400x300?text=Resim+Yok"; }}
+                                    onError={(e) => {
+                                        // Eğer resim yüklenemezse (kırık link), varsayılan güzel bir resim koy
+                                        e.currentTarget.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop";
+                                    }}
                                 />
                                 <span className="calorie-badge">{recipe.calories} kcal</span>
                             </div>
@@ -90,10 +124,20 @@ const Recipes: React.FC<RecipesProps> = ({ recipes }) => {
                         </div>
                     ))
                 )}
+
+                {isHome && recipes.length > 0 && (
+                    <div className="recipe-card more-card" onClick={() => navigate('/icerik')}>
+                        <div className="more-card-content">
+                            <span className="more-icon">🍽️</span>
+                            <h3>Daha Fazla Lezzet Keşfedin</h3>
+                            <p>Yüzlerce sağlıklı tarif ve blog yazısı arşivimizde sizi bekliyor.</p>
+                            <span className="more-link">Tümüne Git &rarr;</span>
+                        </div>
+                    </div>
+                )}
             </div>
 
-            {/* --- SAYFALANDIRMA BUTONLARI --- */}
-            {totalPages > 1 && (
+            {!isHome && totalPages > 1 && (
                 <div className="recipe-pagination">
                     <button
                         onClick={() => paginate(currentPage - 1)}
@@ -120,9 +164,11 @@ const Recipes: React.FC<RecipesProps> = ({ recipes }) => {
 
                         <div className="modal-image">
                             <img
-                                src={selectedRecipe.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop"}
+                                src={getRecipeImage(selectedRecipe)}
                                 alt={selectedRecipe.title}
-                                onError={(e) => { e.currentTarget.src = "https://via.placeholder.com/800x600?text=Resim+Yok"; }}
+                                onError={(e) => {
+                                    e.currentTarget.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop";
+                                }}
                             />
                         </div>
 
