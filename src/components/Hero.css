@@ -1,6 +1,7 @@
 /* src/components/Hero.css */
 
 .hero-section {
+    border-radius: 2%;
     background-color: #e9f5db;
     /* Açık yeşil arka plan */
     padding: 80px 50px;

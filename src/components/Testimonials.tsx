@@ -21,17 +21,19 @@ const Testimonials: React.FC = () => {
     const [newRating, setNewRating] = useState(5);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showForm, setShowForm] = useState(false);
-
-    // --- YENİ: SIRALAMA STATE'İ ---
-    // Varsayılan olarak 'newest' (En Yeniler) seçili
     const [sortOption, setSortOption] = useState<'newest' | 'oldest' | 'highest' | 'lowest'>('newest');
 
+    // --- KARAKTER SINIRI AYARLARI ---
+    const MAX_CHARS = 300; // Maksimum karakter sayısı
+    const [charCount, setCharCount] = useState(0);
+    const [showLimitWarning, setShowLimitWarning] = useState(false);
+
+    // Sayfalandırma
     const [currentPage, setCurrentPage] = useState(1);
     const COMMENTS_PER_PAGE = 3;
 
-    // Verileri Çekme
     useEffect(() => {
-        // Veriyi ham haliyle çekiyoruz, sıralamayı aşağıda JavaScript ile yapacağız
+        // Sıralama işlemi istemci tarafında yapıldığı için basit query
         const q = query(collection(db, "testimonials"));
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const fetchedData = snapshot.docs.map(doc => ({
@@ -43,42 +45,46 @@ const Testimonials: React.FC = () => {
         return () => unsubscribe();
     }, []);
 
-    // --- SIRALAMA MANTIĞI (Trendyol Tarzı) ---
-    const getSortedTestimonials = () => {
-        // Orijinal diziyi bozmamak için kopyasını alıyoruz ([...testimonials])
-        const sorted = [...testimonials];
+    // --- YORUM DEĞİŞİKLİĞİ VE KARAKTER KONTROLÜ ---
+    const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const text = e.target.value;
 
+        if (text.length <= MAX_CHARS) {
+            setNewComment(text);
+            setCharCount(text.length);
+            setShowLimitWarning(false);
+        } else {
+            // Sınırı aşmaya çalışırsa uyarı ver
+            setShowLimitWarning(true);
+            // Fazla karakterleri kes (Kopyala-yapıştır durumunda garanti olsun)
+            /* setNewComment(text.substring(0, MAX_CHARS)); */
+            /* setCharCount(MAX_CHARS); */
+            // Not: Genellikle input değeri state'e bağlıysa (controlled component), 
+            // yukarıdaki if bloğuna girmediği için state güncellenmez ve yazı yazılmaz.
+        }
+    };
+
+    const getSortedTestimonials = () => {
+        const sorted = [...testimonials];
         switch (sortOption) {
-            case 'newest':
-                // Tarihe göre azalan (En yeni en üstte)
-                return sorted.sort((a, b) => (b.date?.seconds || 0) - (a.date?.seconds || 0));
-            case 'oldest':
-                // Tarihe göre artan
-                return sorted.sort((a, b) => (a.date?.seconds || 0) - (b.date?.seconds || 0));
-            case 'highest':
-                // Puana göre azalan (5'ten 1'e)
-                return sorted.sort((a, b) => b.rating - a.rating);
-            case 'lowest':
-                // Puana göre artan (1'den 5'e)
-                return sorted.sort((a, b) => a.rating - b.rating);
-            default:
-                return sorted;
+            case 'newest': return sorted.sort((a, b) => (b.date?.seconds || 0) - (a.date?.seconds || 0));
+            case 'oldest': return sorted.sort((a, b) => (a.date?.seconds || 0) - (b.date?.seconds || 0));
+            case 'highest': return sorted.sort((a, b) => b.rating - a.rating);
+            case 'lowest': return sorted.sort((a, b) => a.rating - b.rating);
+            default: return sorted;
         }
     };
 
     const sortedTestimonials = getSortedTestimonials();
-
-    // Sayfalandırma (Sıralanmış liste üzerinden hesaplanıyor)
     const indexOfLastComment = currentPage * COMMENTS_PER_PAGE;
     const indexOfFirstComment = indexOfLastComment - COMMENTS_PER_PAGE;
     const currentComments = sortedTestimonials.slice(indexOfFirstComment, indexOfLastComment);
     const totalPages = Math.ceil(sortedTestimonials.length / COMMENTS_PER_PAGE);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-    // Yorum Ekleme
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!newName.trim() || !newComment.trim()) return alert("Lütfen alanları doldurun.");
+        if (!newName.trim() || !newComment.trim()) return alert("Lütfen tüm alanları doldurun.");
 
         setIsSubmitting(true);
         try {
@@ -88,8 +94,13 @@ const Testimonials: React.FC = () => {
                 rating: Number(newRating),
                 date: Timestamp.now()
             });
-            setNewName(''); setNewComment(''); setNewRating(5); setShowForm(false); setCurrentPage(1);
-            alert("Yorumunuz eklendi!");
+            setNewName('');
+            setNewComment('');
+            setCharCount(0); // Sayacı sıfırla
+            setNewRating(5);
+            setShowForm(false);
+            setCurrentPage(1);
+            alert("Yorumunuz başarıyla eklendi!");
         } catch (error) { console.error(error); alert("Hata oluştu."); }
         finally { setIsSubmitting(false); }
     };
@@ -105,7 +116,6 @@ const Testimonials: React.FC = () => {
         return new Date(timestamp.seconds * 1000).toLocaleDateString('tr-TR');
     };
 
-    // İsim Baş Harfleri
     const getInitials = (name: string) => {
         if (!name) return "U";
         return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
@@ -118,7 +128,7 @@ const Testimonials: React.FC = () => {
                 <p>Danışanlarımızın başarı hikayeleri ve değerlendirmeleri.</p>
 
                 <button className="add-review-btn" onClick={() => setShowForm(!showForm)}>
-                    {showForm ? "✕ Vazgeç" : "✍️ Siz de Yorum Yapın"}
+                    {showForm ? "✕ Vazgeç" : "✍️ Yorum Yap"}
                 </button>
             </div>
 
@@ -126,28 +136,62 @@ const Testimonials: React.FC = () => {
                 <div className="form-container">
                     <form onSubmit={handleSubmit} className="testimonial-form">
                         <h3>Deneyiminizi Paylaşın</h3>
+
                         <div className="form-row">
                             <div className="input-group">
-                                <input type="text" placeholder="Adınız Soyadınız" value={newName} onChange={(e) => setNewName(e.target.value)} maxLength={30} required />
+                                <label>Adınız Soyadınız</label>
+                                <input
+                                    type="text"
+                                    value={newName}
+                                    onChange={(e) => setNewName(e.target.value)}
+                                    maxLength={30}
+                                    required
+                                    placeholder="Ad Soyad"
+                                />
                             </div>
                             <div className="input-group rating-group">
-                                <label>Puanınız:</label>
+                                <label>Puanınız</label>
                                 <select value={newRating} onChange={(e) => setNewRating(Number(e.target.value))}>
-                                    <option value="5">5 Yıldız - Mükemmel</option>
-                                    <option value="4">4 Yıldız - Çok İyi</option>
-                                    <option value="3">3 Yıldız - İyi</option>
-                                    <option value="2">2 Yıldız - Orta</option>
-                                    <option value="1">1 Yıldız - Geliştirilmeli</option>
+                                    <option value="5">★★★★★ (5 - Mükemmel)</option>
+                                    <option value="4">★★★★☆ (4 - Çok İyi)</option>
+                                    <option value="3">★★★☆☆ (3 - İyi)</option>
+                                    <option value="2">★★☆☆☆ (2 - Orta)</option>
+                                    <option value="1">★☆☆☆☆ (1 - Geliştirilmeli)</option>
                                 </select>
                             </div>
                         </div>
-                        <textarea placeholder="Diyet süreciniz nasıldı? Görüşleriniz bizim için değerli..." value={newComment} onChange={(e) => setNewComment(e.target.value)} rows={4} maxLength={300} required></textarea>
-                        <button type="submit" className="submit-comment-btn" disabled={isSubmitting}>{isSubmitting ? "Gönderiliyor..." : "Yorumu Yayınla"}</button>
+
+                        <div className="input-group">
+                            <label>Yorumunuz</label>
+                            <textarea
+                                value={newComment}
+                                onChange={handleCommentChange}
+                                rows={4}
+                                required
+                                placeholder="Süreciniz nasıldı? Görüşleriniz bizim için değerli..."
+                            ></textarea>
+
+                            {/* Karakter Sayacı */}
+                            <div className={`char-counter ${charCount >= MAX_CHARS ? 'limit' : charCount > MAX_CHARS * 0.9 ? 'warning' : ''}`}>
+                                {charCount} / {MAX_CHARS}
+                            </div>
+
+                            {/* Sınır Uyarısı */}
+                            {showLimitWarning && (
+                                <div className="limit-warning-msg">
+                                    ⚠️ Maksimum karakter sınırına ulaştınız!
+                                </div>
+                            )}
+                        </div>
+
+                        <button type="submit" className="submit-comment-btn" disabled={isSubmitting}>
+                            {isSubmitting ? "Gönderiliyor..." : "YORUMU YAYINLA"}
+                        </button>
                     </form>
                 </div>
             )}
 
-            {/* --- SIRALAMA FİLTRELERİ (YENİ) --- */}
+            {/* SIRALAMA */}
             <div className="sort-container">
                 <span className="sort-label">Sırala:</span>
                 <button className={`sort-btn ${sortOption === 'newest' ? 'active' : ''}`} onClick={() => setSortOption('newest')}>En Yeniler</button>
@@ -156,7 +200,7 @@ const Testimonials: React.FC = () => {
             </div>
 
             <div className="reviews-container">
-                {currentComments.length === 0 ? <p className="no-comments">Henüz yorum yapılmamış.</p> : currentComments.map((t) => (
+                {currentComments.length === 0 ? <p style={{ gridColumn: '1/-1', color: '#999' }}>Henüz yorum yok.</p> : currentComments.map((t) => (
                     <div key={t.id} className="review-card">
                         <div className="review-header">
                             <div className="avatar-circle">{getInitials(t.name)}</div>
@@ -164,8 +208,7 @@ const Testimonials: React.FC = () => {
                                 <h4>{t.name}</h4>
                                 <div className="meta-sub">
                                     {renderStars(t.rating)}
-                                    <span className="dot">•</span>
-                                    <span className="review-date">{formatDate(t.date)}</span>
+                                    <span className="review-date">• {formatDate(t.date)}</span>
                                 </div>
                             </div>
                         </div>
@@ -177,7 +220,7 @@ const Testimonials: React.FC = () => {
                         {t.reply && (
                             <div className="owner-response">
                                 <div className="response-header">
-                                    <span className="response-label">Diyetisyen Yanıtı</span>
+                                    <span className="response-label">Diyetisyen Gül Ödek</span>
                                 </div>
                                 <p>{t.reply}</p>
                             </div>
@@ -186,11 +229,12 @@ const Testimonials: React.FC = () => {
                 ))}
             </div>
 
+            {/* Sayfalandırma Butonları */}
             {totalPages > 1 && (
                 <div className="pagination-controls">
-                    <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="page-btn">&lt; Önceki</button>
+                    <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="page-btn"> &lt; </button>
                     <span className="page-info">{currentPage} / {totalPages}</span>
-                    <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages} className="page-btn">Sonraki &gt;</button>
+                    <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages} className="page-btn"> &gt; </button>
                 </div>
             )}
         </section>

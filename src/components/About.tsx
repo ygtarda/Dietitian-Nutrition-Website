@@ -1,9 +1,10 @@
+// src/components/About.tsx
+
 import React from 'react';
 import './About.css';
-//DENEME DENEME DENEME
-// FOTOĞRAFI BURADA İÇERİ AKTARIYORUZ
-// Eğer fotoğrafın adı farklıysa veya uzantısı .jpeg ise burayı düzelt!
-import profilFoto from '../assets/profil.png';
+
+// DİKKAT: Import satırını sildik!
+// Resim artık 'public/profil.jpg' konumunda olmalı.
 
 interface AboutProps {
     egitimBilgisi: string;
@@ -11,28 +12,58 @@ interface AboutProps {
 
 const About: React.FC<AboutProps> = ({ egitimBilgisi }) => {
     return (
-        <section id="hakkinda" className="about-section">
-            <div className="about-image-container">
-                {/* Import ettiğimiz değişkeni süslü parantez içinde kullanıyoruz */}
-                <img
-                    src={profilFoto}
-                    alt="Uzman Diyetisyen Elif Yılmaz"
-                />
-            </div>
-            <div className="about-content">
-                <h2>Beni Tanıyın</h2>
-                <p>Merhaba, ben Uzman Diyetisyen Elif Yılmaz. Sağlıklı beslenmenin sadece bir diyet listesinden ibaret olmadığına, yaşam boyu sürdürülebilir bir alışkanlık olduğuna inanıyorum.</p>
+        <section id="hakkimda" className="about-section">
+            <div className="about-container">
 
-                <h3>Eğitim ve Yaklaşım</h3>
-                <p>
-                    {egitimBilgisi} <br /><br />
-                    Danışanlarımla birlikte, onların yaşam tarzlarına, sağlık durumlarına ve hedeflerine uygun, kişiselleştirilmiş beslenme planları oluşturuyorum. Yargılamadan, destekleyici bir yaklaşımla size rehberlik etmek için buradayım.
-                </p>
-                <ul>
-                    <li>✅ Kişiselleştirilmiş Beslenme Danışmanlığı</li>
-                    <li>✅ Yeme Bozukluklarında Destek</li>
-                    <li>✅ Sporcu Beslenmesi</li>
-                </ul>
+                <div className="about-image-wrapper">
+                    <img
+                        /* VITE/REACT İÇİN EN GARANTİ YOL: */
+                        /* Başındaki / işareti 'public' klasörünü temsil eder */
+                        src="/profil.jpg"
+                        alt="Uzman Diyetisyen Gül Ödek"
+                        className="about-img"
+                        onError={(e) => {
+                            // Eğer resim hala yoksa, konsola hata basar ve stok fotoyu koyar
+                            console.error("Resim yüklenemedi. Lütfen 'public/profil.jpg' dosyasını kontrol et.");
+                            e.currentTarget.src = "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=800&auto=format&fit=crop";
+                        }}
+                    />
+                    <div className="image-frame"></div>
+                </div>
+
+                <div className="about-content">
+                    <span className="subtitle">TANIŞALIM</span>
+                    <h2>Uzman Diyetisyen Gül Ödek</h2>
+                    <p className="education-highlight">{egitimBilgisi}</p>
+
+                    <p className="bio-text">
+                        Merhaba! Ben Gül Ödek. Beslenme bilimini yaşam tarzına dönüştürmeyi hedefleyen,
+                        sürdürülebilir ve kişiye özel çözümler sunan bir beslenme uzmanıyım.
+                        Yasaklarla dolu diyet listeleri yerine, hayatınıza entegre edebileceğiniz,
+                        sizi mutlu eden ve sağlığınızı koruyan programlar hazırlıyorum.
+                    </p>
+
+                    <p className="bio-text">
+                        Amacım sadece kilo verdirmek değil; bedeninizi tanımanızı sağlamak,
+                        yemekle ilişkinizi iyileştirmek ve hayat boyu sürecek sağlıklı alışkanlıklar kazandırmaktır.
+                    </p>
+
+                    <div className="stats-row">
+                        <div className="stat-item">
+                            <span className="stat-number">5+</span>
+                            <span className="stat-label">Yıl Deneyim</span>
+                        </div>
+                        <div className="stat-item">
+                            <span className="stat-number">1000+</span>
+                            <span className="stat-label">Mutlu Danışan</span>
+                        </div>
+                        <div className="stat-item">
+                            <span className="stat-number">50+</span>
+                            <span className="stat-label">Kurumsal Eğitim</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
     );

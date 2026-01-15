@@ -4,9 +4,7 @@
 .admin-dashboard {
     padding: 40px 20px;
     background-color: #f8fafc;
-    /* Çok açık gri/mavi modern arka plan */
     min-height: calc(100vh - 80px);
-    /* Header hariç tam ekran */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -34,6 +32,7 @@
     padding: 4px;
     border-radius: 8px;
     display: inline-flex;
+    flex-wrap: wrap;
 }
 
 .admin-tabs button {
@@ -59,7 +58,6 @@
 .admin-tabs button.active {
     background-color: white;
     color: #0f172a;
-    /* Koyu metin rengi */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -69,7 +67,7 @@
     margin: 0 auto;
 }
 
-/* --- Grid Yapısı (Mesajlar ve Yorumlar) --- */
+/* --- Grid Yapısı --- */
 .messages-list,
 .testimonials-list {
     display: grid;
@@ -88,6 +86,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100%;
 }
 
 .admin-card:hover {
@@ -99,66 +98,120 @@
 .card-header {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: flex-start;
     margin-bottom: 12px;
     border-bottom: 1px solid #f1f5f9;
     padding-bottom: 8px;
+    gap: 10px;
 }
 
 .card-header strong {
     color: #334155;
     font-size: 16px;
+    word-break: break-word;
 }
 
 .email {
     font-size: 12px;
     color: #94a3b8;
     font-style: italic;
+    word-break: break-all;
 }
 
 .rating {
     color: #f59e0b;
-    /* Amber rengi yıldızlar */
     font-size: 16px;
 }
 
+/* --- SCROLL EKLENMİŞ MESAJ KUTUSU --- */
 .message-body {
     color: #475569;
     font-size: 14px;
     line-height: 1.6;
     margin-bottom: 15px;
     white-space: pre-wrap;
+    word-wrap: break-word;
+
+    /* SCROLL AYARLARI */
+    max-height: 150px;
+    /* Maksimum yükseklik */
+    overflow-y: auto;
+    /* Dikey kaydırma */
+    padding: 10px;
+    background-color: #fcfcfc;
+    border: 1px solid #f1f5f9;
+    border-radius: 8px;
+    flex-grow: 1;
 }
 
-/* Silme Butonu */
+/* Scrollbar Tasarımı (Webkit - Chrome/Safari) */
+.message-body::-webkit-scrollbar,
+.note-preview {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #fffbeb;
+    border-radius: 8px;
+    font-size: 13px;
+    font-style: italic;
+    color: #555;
+    border: 1px solid #fcd34d;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    /* SCROLL AYARLARI */
+    height: 80px;
+    /* Sabit yükseklik */
+    overflow-y: auto;
+}
+
+.note-preview::-webkit-scrollbar {
+    width: 4px;
+}
+
+.note-preview::-webkit-scrollbar-thumb {
+    background: #fcd34d;
+    border-radius: 4px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px dashed #f1f5f9;
+    gap: 10px;
+}
+
 .delete-btn {
-    background-color: transparent;
+    background-color: #fff5f5;
     color: #ef4444;
-    border: 1px solid #fecaca;
+    border: 1px solid #fed7d7;
     padding: 6px 12px;
     border-radius: 6px;
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .delete-btn:hover {
-    background-color: #fee2e2;
-    color: #dc2626;
+    background-color: #ef4444;
+    color: white;
+    border-color: #ef4444;
 }
 
-/* --- Blog Yönetimi Alanı (BUG FIX ve Tasarım) --- */
+/* Blog Yönetimi */
 .blog-management {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    /* İki eşit sütun */
+    grid-template-columns: 1.2fr 0.8fr;
     gap: 40px;
     align-items: start;
-    /* Üstten hizala */
 }
 
-/* Sol Taraf: Form Kutusu */
 .add-blog-container {
     background: white;
     padding: 30px;
@@ -166,13 +219,18 @@
     border: 1px solid #e2e8f0;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     position: sticky;
-    /* Sayfa kaydırılsa bile form görünür kalsın */
     top: 20px;
 }
 
-.add-blog-container h3 {
-    margin-top: 0;
+.form-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
+}
+
+.form-header-row h3 {
+    margin: 0;
     color: #1e293b;
     font-size: 20px;
 }
@@ -184,37 +242,77 @@
 }
 
 .mini-form input,
-.mini-form textarea {
+.mini-form textarea,
+.mini-form select {
     width: 100%;
     padding: 12px;
     border: 1px solid #cbd5e1;
     border-radius: 8px;
     font-size: 14px;
     font-family: inherit;
-    /* Sayfa fontunu kullan */
-    transition: border-color 0.2s;
     background-color: #f8fafc;
+    box-sizing: border-box;
 }
 
-/* --- KRİTİK DÜZELTME: Textarea Boyutlandırma --- */
 .mini-form textarea {
     resize: vertical;
-    /* Sadece dikey büyüyebilir, yanlara taşamaz */
     min-height: 120px;
     max-height: 500px;
-    /* Çok fazla uzayıp ekranı kaplamasın */
 }
 
 .mini-form input:focus,
-.mini-form textarea:focus {
+.mini-form textarea:focus,
+.mini-form select:focus {
     outline: none;
     border-color: #7ab800;
-    /* Diyetisyen Yeşili */
     background-color: white;
     box-shadow: 0 0 0 3px rgba(122, 184, 0, 0.1);
 }
 
-.mini-form button {
+.form-row-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.image-upload-area {
+    background-color: #f1f5f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px dashed #cbd5e1;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.image-upload-area label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #475569;
+}
+
+.file-input {
+    background-color: white;
+    padding: 8px;
+    font-size: 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.divider {
+    margin: 10px 0;
+    font-size: 11px;
+    color: #94a3b8;
+    position: relative;
+}
+
+.divider span {
+    background-color: #f1f5f9;
+    padding: 0 5px;
+}
+
+.submit-btn {
     background-color: #7ab800;
     color: white;
     padding: 12px;
@@ -224,19 +322,49 @@
     cursor: pointer;
     font-size: 15px;
     margin-top: 10px;
+    width: 100%;
     transition: background-color 0.2s;
 }
 
-.mini-form button:hover {
+.submit-btn:hover {
     background-color: #659602;
 }
 
-.mini-form button:disabled {
-    background-color: #94a3b8;
+.submit-btn:disabled {
+    background-color: #cbd5e1;
     cursor: not-allowed;
 }
 
-/* Sağ Taraf: Mevcut Bloglar */
+.edit-btn {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.edit-btn:hover {
+    background-color: #2563eb;
+}
+
+.cancel-edit-btn {
+    background-color: #9ca3af;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.mini-card-actions {
+    display: flex;
+    align-items: center;
+}
+
 .existing-blogs h3 {
     margin-top: 0;
     margin-bottom: 20px;
@@ -246,12 +374,11 @@
 
 .blog-mini-card {
     flex-direction: row;
-    /* Yan yana hizala */
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
     border-left: 4px solid #7ab800;
-    /* Sol kenar çizgisi */
+    padding: 15px;
 }
 
 .blog-mini-card strong {
@@ -259,8 +386,7 @@
     color: #334155;
 }
 
-/* --- YENİ EKLENEN: YORUM CEVAPLAMA VE TARİH STİLLERİ --- */
-
+/* Yorum Yanıtlama */
 .rating-date {
     display: flex;
     flex-direction: column;
@@ -277,14 +403,14 @@
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed #e5e7eb;
     align-items: center;
 }
 
-/* Cevapla Butonu */
 .reply-btn {
     background-color: #3b82f6;
-    /* Mavi */
     color: white;
     border: none;
     padding: 6px 12px;
@@ -292,14 +418,8 @@
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.reply-btn:hover {
-    background-color: #2563eb;
-}
-
-/* Cevap Formu */
 .reply-form {
     margin-top: 15px;
     padding-top: 15px;
@@ -326,18 +446,11 @@
     border-radius: 6px;
     font-size: 14px;
     margin-bottom: 10px;
-    resize: vertical;
-    font-family: inherit;
-}
-
-.reply-form textarea:focus {
-    outline: none;
-    border-color: #3b82f6;
+    box-sizing: border-box;
 }
 
 .send-reply-btn {
     background-color: #10b981;
-    /* Yeşil */
     color: white;
     border: none;
     padding: 8px 15px;
@@ -348,11 +461,26 @@
     width: 100%;
 }
 
-.send-reply-btn:hover {
-    background-color: #059669;
+.delete-link {
+    background: none;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 11px;
+    text-decoration: underline;
+    margin-left: 10px;
+    padding: 0;
 }
 
-/* Admin Cevap Önizleme Kutusu */
+.edit-link {
+    background: none;
+    border: none;
+    color: #3b82f6;
+    cursor: pointer;
+    font-size: 11px;
+    text-decoration: underline;
+}
+
 .admin-reply-preview {
     background-color: #f0fdf4;
     padding: 12px;
@@ -361,6 +489,7 @@
     font-size: 13px;
     border-left: 4px solid #10b981;
     color: #334155;
+    word-break: break-word;
 }
 
 .admin-reply-preview strong {
@@ -369,23 +498,187 @@
     margin-bottom: 4px;
     font-size: 12px;
     text-transform: uppercase;
+}
+
+/* Randevu Kartları */
+.appointment-card {
+    border-left: 5px solid #cbd5e1;
+    transition: all 0.3s ease;
+    background-color: white;
+    position: relative;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.appointment-card.approved {
+    border-left-color: #10b981;
+    background-color: #f0fdf4;
+}
+
+.appointment-card.rejected {
+    border-left-color: #ef4444;
+    background-color: #fef2f2;
+    opacity: 0.8;
+}
+
+.status-badge {
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: #e2e8f0;
+    color: #475569;
     letter-spacing: 0.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
-.admin-reply-preview p {
-    margin: 0;
+.status-badge.approved {
+    background: #dcfce7;
+    color: #166534;
 }
 
-/* Mobil Uyumluluk */
+.status-badge.rejected {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.app-details {
+    margin: 15px 0;
+    padding: 15px 0;
+    border-top: 1px dashed #e5e7eb;
+    border-bottom: 1px dashed #e5e7eb;
+}
+
+.app-details p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #4b5563;
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.app-details a {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+/* --- SCROLL EKLENMİŞ RANDEVU NOTU --- */
+.note-preview {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #fffbeb;
+    border-radius: 8px;
+    font-size: 13px;
+    font-style: italic;
+    color: #555;
+    border: 1px solid #fcd34d;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    /* SCROLL AYARLARI */
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+.approve-btn,
+.reject-btn {
+    flex: 1;
+    text-align: center;
+    min-width: 80px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    color: white;
+    border: none;
+}
+
+.approve-btn {
+    background-color: #10b981;
+}
+
+.reject-btn {
+    background-color: #ef4444;
+}
+
+.message-body {
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    white-space: pre-wrap;
+    /* Satır boşluklarını korur */
+    word-wrap: break-word;
+    /* Uzun kelimeleri kırar */
+    overflow-wrap: break-word;
+    word-break: break-word;
+
+    /* SCROLL AYARLARI GÜNCELLENDİ */
+    height: 120px;
+    /* Sabit yükseklik: Tüm kutular eşit boyda olur */
+    overflow-y: auto;
+    /* İçerik taşarsa kaydırma çubuğu çıkar */
+    padding: 10px;
+    /* İç boşluk */
+    background-color: #fcfcfc;
+    /* Hafif bir arka plan rengi */
+    border: 1px solid #f1f5f9;
+    /* İnce bir çerçeve */
+    border-radius: 8px;
+    /* Köşeleri yuvarlat */
+    flex-grow: 0;
+    /* Esnemesin, sabit kalsın */
+}
+
+/* Scrollbar Tasarımı (Webkit - Chrome/Safari için şık görünüm) */
+.message-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.message-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.message-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.message-body::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ... KART FOOTER ... */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    /* Footer'ı en alta it */
+    padding-top: 10px;
+    border-top: 1px dashed #f1f5f9;
+    gap: 10px;
+}
+
 @media (max-width: 900px) {
     .blog-management {
         grid-template-columns: 1fr;
-        /* Mobilde alt alta */
+    }
+
+    .form-row-split {
+        grid-template-columns: 1fr;
     }
 
     .add-blog-container {
         position: static;
-        /* Mobilde yapışkan olmasın */
+        order: -1;
+        margin-bottom: 30px;
     }
 
     .admin-header {
@@ -395,6 +688,10 @@
 
     .admin-tabs {
         justify-content: space-between;
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 10px;
     }
 
     .admin-tabs button {
@@ -402,5 +699,24 @@
         padding: 10px;
         font-size: 13px;
         justify-content: center;
+        min-width: 100px;
+    }
+}
+
+@media (max-width: 600px) {
+    .appointment-card .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card-actions {
+        justify-content: space-between;
+    }
+
+    .approve-btn,
+    .reject-btn,
+    .delete-btn {
+        padding: 8px;
+        font-size: 11px;
     }
 }

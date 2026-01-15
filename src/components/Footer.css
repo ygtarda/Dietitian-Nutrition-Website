@@ -1,112 +1,198 @@
 /* src/components/Footer.css */
 
 .footer-section {
-    background-color: #333;
-    color: #f7f7f7;
-    padding-top: 40px;
+    background-color: #1a202c;
+    /* Koyu Antrasit - Premium His */
+    color: #e2e8f0;
+    padding: 80px 20px 30px;
     font-size: 15px;
+    margin-top: auto;
+    /* Sayfanın en altında kalmasını garantile */
 }
 
-.footer-content {
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    /* Sol taraf daha geniş */
+    gap: 60px;
+    margin-bottom: 60px;
+}
+
+/* --- Marka Alanı --- */
+.footer-title {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.footer-desc {
+    line-height: 1.8;
+    color: #a0aec0;
+    margin-bottom: 25px;
+    max-width: 350px;
+}
+
+.social-icons {
     display: flex;
-    justify-content: space-around;
-    padding: 0 50px 30px 50px;
-    border-bottom: 1px solid #444;
-    flex-wrap: wrap;
-    gap: 30px;
+    gap: 15px;
 }
 
-.footer-logo,
-.footer-links,
-.footer-contact {
-    min-width: 200px;
+.social-icons a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
 }
 
-.footer-logo h3 {
-    color: #7ab800;
-    /* Diyetisyen adı vurgusu */
-    margin-bottom: 10px;
+.social-icons a:hover {
+    background-color: #6c7e3a;
+    /* Yeşil hover */
+    transform: translateY(-2px);
 }
 
-.footer-content h4 {
-    color: #e9f5db;
-    margin-bottom: 15px;
+/* --- Başlıklar --- */
+.footer-links h4,
+.footer-contact h4 {
     font-size: 18px;
+    color: #fff;
+    margin-bottom: 25px;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
 }
 
+.footer-links h4::after,
+.footer-contact h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 30px;
+    height: 3px;
+    background-color: #6c7e3a;
+    /* Yeşil Çizgi Vurgusu */
+    border-radius: 2px;
+}
+
+/* --- Linkler --- */
 .footer-links ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .footer-links li {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 .footer-links a {
-    color: #ccc;
+    color: #a0aec0;
     text-decoration: none;
-    transition: color 0.3s;
+    transition: color 0.2s, padding-left 0.2s;
+    display: inline-block;
 }
 
 .footer-links a:hover {
-    color: #7ab800;
+    color: #6c7e3a;
+    padding-left: 5px;
 }
 
-.footer-contact p {
-    margin-bottom: 8px;
+/* --- İletişim Bilgileri --- */
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 15px;
+    color: #a0aec0;
 }
 
+.contact-item span {
+    font-size: 18px;
+}
+
+.contact-item p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* --- Alt Bar (DÜZELTİLDİ: ORTALAMA VE ÇAKIŞMA ÖNLEME) --- */
 .footer-bottom {
-    text-align: center;
-    padding: 15px 50px;
-    background-color: #222;
-    color: #aaa;
-    font-size: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    /* Alt alta dizilim */
+    align-items: center;
+    /* Ortala */
+    justify-content: center;
+    gap: 20px;
+    /* Copyright ve buton arası boşluk */
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 13px;
+    color: #718096;
 }
 
-/* src/components/Footer.css - EN SONA EKLENECEK */
+.highlight {
+    color: #fff;
+    font-weight: 600;
+}
 
+/* Yönetici Giriş Butonu (Sadeleştirildi ve Renkler Düzeltildi) */
 .admin-footer-link {
     background: none;
     border: none;
-    color: #aaa;
-    text-decoration: underline;
-    font-size: 12px;
+    /* Çerçeveyi kaldırdık */
+    color: #52525b;
+    /* Koyu gri (neredeyse siyah) - Nötr renk */
+    padding: 5px 10px;
     cursor: pointer;
-    margin-top: 5px;
+    font-size: 12px;
+    transition: all 0.3s;
     opacity: 0.6;
-    /* Daha gizli görünmesi için */
-    transition: opacity 0.3s;
+    /* Fazla dikkat çekmesin */
+    text-decoration: underline;
+    /* Link olduğu anlaşılsın */
 }
 
 .admin-footer-link:hover {
+    color: #d4d4d8;
+    /* Hover'da açık gri/beyazımsı */
     opacity: 1;
+    text-decoration: none;
 }
 
-
-
-
-/* src/components/Footer.css - EN SONA EKLENECEK */
-
-/* Mobil Ekranlar (600px ve altı) */
-@media (max-width: 600px) {
-    .footer-content {
-        flex-direction: column;
-        align-items: center;
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
         text-align: center;
-        padding: 0 20px 20px 20px;
-        gap: 20px;
     }
 
-    .footer-logo,
-    .footer-links,
-    .footer-contact {
-        min-width: auto;
-        width: 100%;
+    .footer-desc {
+        margin: 0 auto 25px auto;
     }
 
-    .footer-bottom {
-        padding: 10px 20px;
+    .social-icons {
+        justify-content: center;
+    }
+
+    .footer-links h4::after,
+    .footer-contact h4::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .contact-item {
+        justify-content: center;
     }
 }

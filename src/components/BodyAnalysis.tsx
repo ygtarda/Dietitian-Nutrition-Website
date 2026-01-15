@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import './BodyAnalysis.css';
+import { useNavigate } from 'react-router-dom'; // YENİ: Sayfa yönlendirmesi için
 
 interface Question {
     id: number;
@@ -9,7 +10,6 @@ interface Question {
     options: string[];
 }
 
-// Sorularımız
 const questions: Question[] = [
     {
         id: 1,
@@ -29,29 +29,26 @@ const questions: Question[] = [
 ];
 
 const BodyAnalysis: React.FC = () => {
+    const navigate = useNavigate(); // YENİ: Yönlendirme kancası
     const [currentStep, setCurrentStep] = useState(0);
-    const [answers, setAnswers] = useState<string[]>([]); // Cevapları burada tutuyoruz
+    const [answers, setAnswers] = useState<string[]>([]);
     const [showResult, setShowResult] = useState(false);
     const [recommendation, setRecommendation] = useState<{ title: string, desc: string } | null>(null);
 
-    // Seçenek tıklandığında çalışır
     const handleOptionClick = (option: string) => {
         const newAnswers = [...answers, option];
         setAnswers(newAnswers);
 
         if (currentStep < questions.length - 1) {
-            // Sonraki soruya geç
             setCurrentStep(currentStep + 1);
         } else {
-            // Sorular bitti, sonucu hesapla
             calculateResult(newAnswers);
         }
     };
 
-    // Basit Mantık: Cevaplara göre paket önerisi
     const calculateResult = (finalAnswers: string[]) => {
-        const goal = finalAnswers[1]; // 2. soru: Hedef
-        const activity = finalAnswers[2]; // 3. soru: Spor
+        const goal = finalAnswers[1];
+        const activity = finalAnswers[2];
 
         let resultTitle = "";
         let resultDesc = "";
@@ -81,8 +78,10 @@ const BodyAnalysis: React.FC = () => {
         setRecommendation(null);
     };
 
-    const scrollToContact = () => {
-        document.getElementById('iletisim')?.scrollIntoView({ behavior: 'smooth' });
+    // YENİ: Butona basınca iletişim sayfasına git
+    const handleContactRedirect = () => {
+        navigate('/iletisim'); // İletişim sayfasına yönlendir
+        window.scrollTo(0, 0); // Sayfanın en üstünden başlat
     };
 
     return (
@@ -94,9 +93,7 @@ const BodyAnalysis: React.FC = () => {
                 </div>
 
                 {!showResult ? (
-                    /* SORU KARTI */
                     <div className="question-card">
-                        {/* İlerleme Çubuğu */}
                         <div className="progress-bar">
                             <div
                                 className="progress-fill"
@@ -123,7 +120,6 @@ const BodyAnalysis: React.FC = () => {
                         </div>
                     </div>
                 ) : (
-                    /* SONUÇ KARTI */
                     <div className="result-card">
                         <div className="result-icon">🎉</div>
                         <h3>Size Özel Önerimiz:</h3>
@@ -131,7 +127,8 @@ const BodyAnalysis: React.FC = () => {
                         <p className="result-desc">{recommendation?.desc}</p>
 
                         <div className="result-actions">
-                            <button className="contact-btn" onClick={scrollToContact}>
+                            {/* Güncellenen Buton */}
+                            <button className="contact-btn" onClick={handleContactRedirect}>
                                 Paket Hakkında Bilgi Al
                             </button>
                             <button className="restart-btn" onClick={resetQuiz}>

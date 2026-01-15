@@ -66,6 +66,7 @@ const Calculator: React.FC = () => {
         const TDEE = BMR * aktivite;
 
         setKaloriSonuc(Math.round(TDEE));
+
     };
 
     // --- VKİ Hesaplama Fonksiyonları ---
@@ -167,7 +168,7 @@ const Calculator: React.FC = () => {
 
                         {kaloriSonuc && (
                             <div className="result-box success">
-                                Tahmini Günlük Kalori İhtiyacınız: **{kaloriSonuc} kcal**
+                                Tahmini Günlük Kalori İhtiyacınız: <strong>{kaloriSonuc} kcal</strong>
                             </div>
                         )}
 
@@ -192,14 +193,14 @@ const Calculator: React.FC = () => {
 
                         {vkiSonuc && (
                             <div className="result-box info">
-                                {vkiSonuc}
+                                <strong>{vkiSonuc}</strong>
                             </div>
                         )}
 
                     </form>
 
                     <p className="vki-info-text">
-                        *VKİ, vücudunuzdaki yağ oranını gösteren bir değer değildir, yalnızca bir referans noktasıdır. Detaylı analiz için uzmana danışın.
+                        <strong>VKİ</strong>, vücudunuzdaki yağ oranını gösteren bir değer değildir, yalnızca bir referans noktasıdır. Detaylı analiz için uzmana danışın.
                     </p>
                 </div>
 

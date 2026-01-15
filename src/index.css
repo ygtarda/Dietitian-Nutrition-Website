@@ -1,31 +1,43 @@
 /* src/index.css */
 
-/* Tüm öğelerde varsayılan stil sıfırlama */
-* {
+/* 1. Tüm elementler için kutu modelini düzelt (Padding taşmasını engeller) */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-
+/* 2. Sayfanın yatayda kaymasını engelle (Sağdaki beyaz boşluk çözümü) */
+html,
 body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  /* Yatay taşmayı gizle */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-  background-color: #fff;
-  color: #333;
-
-  /* YUMUŞAK KAYDIRMA KURALI */
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Linkler için genel ayar */
-a {
-  text-decoration: none;
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  /* React kök elemanını da sınırla */
 }
 
-/* Main alanı için içerik genişliği kısıtlaması (isteğe bağlı) */
-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px 0;
+/* Resimlerin kapsayıcılarından taşmasını engelle */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Mobil için genel font boyutu ayarı */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
 }

@@ -1,117 +1,302 @@
 /* src/components/Contact.css */
 
 .contact-section {
-    padding: 60px 50px;
-    background-color: #e9f5db;
-    /* Açık yeşil arka plan */
+    padding: 100px 20px;
+    background-color: #fcfdfc;
+    /* Çok hafif, temiz arka plan */
+    min-height: 80vh;
     display: flex;
-    gap: 50px;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
 }
 
-.contact-info {
-    flex: 1;
-    min-width: 300px;
-}
-
-.contact-info h2 {
-    font-size: 36px;
-    color: #6c7e3a;
-    margin-bottom: 20px;
-}
-
-.contact-info p {
-    margin-bottom: 15px;
-    line-height: 1.7;
-}
-
-.contact-info strong {
-    font-weight: 600;
-}
-
-.social-links a {
-    color: #7ab800;
-    margin-right: 15px;
-    font-weight: 500;
-}
-
-.contact-form {
-    flex: 2;
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
-
-.contact-form h3 {
-    margin-top: 0;
-    color: #333;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-    color: #555;
-}
-
-.form-group input,
-.form-group textarea {
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    /* Bilgi ve Form oranı */
+    /* Sol taraf biraz daha dar */
+    max-width: 1100px;
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    font-family: inherit;
-    /* Yazı tipini korur */
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    /* Daha modern ve derin gölge */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f1f5f9;
 }
 
-.form-group textarea {
-    resize: vertical;
-}
-
-.submit-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #7ab800;
+/* --- SOL TARAF: BİLGİLER --- */
+.contact-info-box {
+    background-color: #1a202c;
+    /* Koyu Antrasit (Premium His) */
     color: white;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Arka plana hafif dekoratif daireler */
+.contact-info-box::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.contact-info-box::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(108, 126, 58, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.contact-info-box h3 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #fff;
+    font-weight: 800;
+    position: relative;
+    z-index: 2;
+    letter-spacing: -0.5px;
+}
+
+.contact-desc {
+    color: #a0aec0;
+    line-height: 1.7;
+    margin-bottom: 50px;
+    font-size: 16px;
+    position: relative;
+    z-index: 2;
+}
+
+.info-items {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.info-item .icon {
+    font-size: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    color: #6c7e3a;
+    /* Yeşil İkon */
+    transition: transform 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+.info-item:hover .icon {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.info-item strong {
+    display: block;
+    font-size: 12px;
+    color: #718096;
+    /* Soluk başlık */
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.info-item p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+}
+
+/* Harita */
+.map-wrapper {
+    border-radius: 16px;
+    overflow: hidden;
+    height: 220px;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- SAĞ TARAF: FORM --- */
+.contact-form-box {
+    padding: 60px 50px;
+    background-color: #fff;
+}
+
+.contact-form-box h3 {
+    color: #1a202c;
+    font-size: 28px;
+    margin-bottom: 40px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 13px;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid #edf2f7;
+    border-radius: 12px;
+    font-size: 15px;
+    background-color: #fcfcfc;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+    box-sizing: border-box;
+    color: #1a202c;
+}
+
+.input-group textarea {
+    resize: vertical;
+    min-height: 140px;
+}
+
+.input-group input:hover,
+.input-group textarea:hover {
+    border-color: #cbd5e0;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    outline: none;
+    border-color: #6c7e3a;
+    /* Yeşil Odak */
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(108, 126, 58, 0.1);
+    /* Yeşil Hare */
+}
+
+.send-msg-btn {
+    width: 100%;
+    background-color: #1a202c;
+    /* Koyu antrasit buton */
+    color: white;
+    padding: 18px;
     border: none;
-    border-radius: 4px;
-    font-size: 17px;
-    font-weight: bold;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.submit-button:hover {
-    background-color: #6c7e3a;
+.send-msg-btn:hover:not(:disabled) {
+    background-color: #000000;
+    /* Yeşil yerine Tam Siyah (veya #2d3748 gibi koyu gri) */
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    /* Yeşil gölge yerine siyah gölge */
 }
 
-/* src/components/Contact.css - EN SONA EKLENECEK */
+.send-msg-btn:disabled {
+    background-color: #cbd5e0;
+    cursor: not-allowed;
+    transform: none;
+}
 
-/* Mobil Ekranlar (850px ve altı) */
-@media (max-width: 850px) {
-    .contact-section {
-        flex-direction: column;
-        padding: 40px 20px;
-        gap: 30px;
+.success-msg {
+    margin-top: 25px;
+    padding: 15px;
+    background-color: #f0fdf4;
+    color: #15803d;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    border: 1px solid #bbf7d0;
+    animation: fadeIn 0.5s ease;
+}
+
+.error-msg {
+    margin-top: 25px;
+    padding: 15px;
+    background-color: #fef2f2;
+    color: #b91c1c;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    border: 1px solid #fecaca;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
     }
 
-    .contact-info {
-        min-width: 100%;
-        /* Tüm alanı kapla */
-        text-align: center;
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 900px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+        /* Mobilde alt alta */
+        max-width: 600px;
     }
 
-    .contact-form {
-        width: 100%;
-        /* Formun tamamını kapla */
+    .contact-info-box {
+        padding: 50px 30px;
+        order: 2;
+        /* Bilgiler altta kalsın isterseniz */
+    }
+
+    .contact-form-box {
+        padding: 50px 30px;
+        order: 1;
+    }
+
+    .contact-info-box::before,
+    .contact-info-box::after {
+        display: none;
+        /* Mobilde karmaşayı azalt */
     }
 }

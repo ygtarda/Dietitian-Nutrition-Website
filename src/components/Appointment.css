@@ -1,0 +1,522 @@
+/* src/components/Appointment.css */
+
+.appointment-section {
+    padding: 60px 20px;
+    background-color: #f8fafc;
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.appointment-container {
+    width: 100%;
+    max-width: 700px;
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+}
+
+.appointment-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.appointment-header h2 {
+    color: #1e293b;
+    margin-bottom: 10px;
+    font-weight: 800;
+    font-size: 28px;
+}
+
+.appointment-header p {
+    color: #64748b;
+    font-size: 15px;
+    margin: 0;
+}
+
+/* Adım Göstergesi */
+.steps-indicator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.step {
+    font-weight: 700;
+    color: #cbd5e1;
+    font-size: 13px;
+    z-index: 2;
+    background: white;
+    padding: 0 10px;
+    transition: color 0.3s;
+}
+
+.step.active {
+    color: #7ab800;
+}
+
+.line {
+    flex: 1;
+    height: 2px;
+    background-color: #f1f5f9;
+    margin: 0 5px;
+    border-radius: 2px;
+}
+
+/* İlerleme Çubuğu (Alternatif) */
+.progress-track {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 0 10px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.track-step {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    z-index: 2;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+.track-step.active {
+    background-color: #7ab800;
+    color: white;
+    box-shadow: 0 0 0 4px rgba(122, 184, 0, 0.15);
+}
+
+.track-line {
+    flex: 1;
+    height: 2px;
+    background-color: #f3f4f6;
+    margin: 0 8px;
+}
+
+/* Animasyon */
+.fade-in {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.step-wrapper h3 {
+    margin-bottom: 20px;
+    color: #374151;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* Hizmet Kartları */
+.services-grid-new {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.service-card-new {
+    border: 1px solid #e5e7eb;
+    padding: 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #fff;
+}
+
+.service-card-new:hover {
+    border-color: #7ab800;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.service-card-new.selected {
+    border-color: #7ab800;
+    background-color: #fafffa;
+    box-shadow: 0 0 0 2px rgba(122, 184, 0, 0.1);
+}
+
+.srv-icon {
+    font-size: 24px;
+    background: #f9fafb;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.srv-info {
+    flex: 1;
+    text-align: left;
+}
+
+.srv-info h4 {
+    margin: 0 0 4px 0;
+    color: #1f2937;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.srv-info p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.srv-price {
+    font-weight: 700;
+    color: #7ab800;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* Tarih Saat - Takvim */
+.calendar-container {
+    max-width: 340px;
+    margin: 0 auto 30px auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.calendar-header button {
+    background: #f3f4f6;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    color: #4b5563;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.calendar-header button:hover {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.calendar-header span {
+    font-weight: 700;
+    color: #111827;
+    font-size: 15px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+}
+
+.calendar-day-name {
+    font-size: 11px;
+    color: #9ca3af;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    transition: all 0.2s;
+}
+
+.calendar-day:hover:not(.disabled):not(.empty) {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+.calendar-day.selected {
+    background-color: #7ab800;
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 2px 5px rgba(122, 184, 0, 0.3);
+}
+
+.calendar-day.disabled {
+    color: #e5e7eb;
+    cursor: not-allowed;
+}
+
+.calendar-day.empty {
+    cursor: default;
+}
+
+.time-slots-container {
+    text-align: center;
+    margin-bottom: 30px;
+    animation: fadeIn 0.4s ease;
+}
+
+.time-slots-container h4 {
+    font-size: 15px;
+    color: #374151;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.slots-grid-new {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.slot-btn {
+    padding: 10px;
+    border: 1px solid #e5e7eb;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #4b5563;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.slot-btn:hover:not(:disabled) {
+    border-color: #7ab800;
+    color: #7ab800;
+}
+
+.slot-btn.active {
+    background-color: #7ab800;
+    color: white;
+    border-color: #7ab800;
+    box-shadow: 0 4px 10px rgba(122, 184, 0, 0.2);
+}
+
+.slot-btn.booked {
+    background-color: #f9fafb;
+    color: #d1d5db;
+    text-decoration: line-through;
+    cursor: not-allowed;
+    border-color: transparent;
+}
+
+/* Özet ve Form */
+.confirmation-box {
+    background-color: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px dashed #cbd5e1;
+    margin-bottom: 25px;
+}
+
+.conf-item {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #4b5563;
+    display: flex;
+    justify-content: space-between;
+}
+
+.conf-item strong {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.conf-item.price {
+    color: #7ab800;
+    font-weight: 700;
+    font-size: 16px;
+    margin-top: 15px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 10px;
+}
+
+/* --- INPUT VE TEXTAREA DÜZENLEMESİ (DÜZELTİLDİ: .input-group) --- */
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #475569;
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 14px;
+    background: #fff;
+    outline: none;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    border-color: #7ab800;
+    box-shadow: 0 0 0 3px rgba(122, 184, 0, 0.1);
+}
+
+/* --- TEXTAREA KISITLAMASI --- */
+.input-group textarea {
+    resize: vertical;
+    /* Sadece dikey esneme */
+    min-height: 80px;
+    /* Minimum yükseklik */
+    max-height: 200px;
+    /* Maksimum yükseklik sınırı */
+}
+
+.info-badge {
+    background-color: #f0fdf4;
+    color: #15803d;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 25px;
+    border: 1px solid #bbf7d0;
+    line-height: 1.5;
+}
+
+/* Butonlar */
+.action-row {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.primary-btn {
+    flex: 2;
+    background-color: #7ab800;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba(122, 184, 0, 0.2);
+}
+
+.primary-btn:hover:not(:disabled) {
+    background-color: #659602;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(108, 126, 58, 0.3);
+}
+
+.primary-btn:disabled {
+    background-color: #d1d5db;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.secondary-btn {
+    flex: 1;
+    background: white;
+    border: 1px solid #d1d5db;
+    color: #6b7280;
+    padding: 14px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.secondary-btn:hover {
+    border-color: #9ca3af;
+    color: #111827;
+    background-color: #f9fafb;
+}
+
+@media (max-width: 600px) {
+    .slots-grid-new {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Düzeltildi */
+    .appointment-container {
+        padding: 25px;
+    }
+
+    .action-row {
+        flex-direction: column-reverse;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        width: 100%;
+    }
+
+    .service-card-new {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 15px;
+    }
+
+    .srv-info {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .srv-icon {
+        margin-bottom: 10px;
+    }
+}
