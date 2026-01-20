@@ -2,7 +2,7 @@
 
 .contact-section {
     padding: 100px 20px;
-    background-color: #fcfdfc;
+    background-color: #fdfefd;
     /* Çok hafif, temiz arka plan */
     min-height: 80vh;
     display: flex;
@@ -36,6 +36,7 @@
     justify-content: space-between;
     position: relative;
     overflow: hidden;
+    border-radius: 20px;
 }
 
 /* Arka plana hafif dekoratif daireler */
@@ -150,6 +151,7 @@
 .contact-form-box {
     padding: 60px 50px;
     background-color: #fff;
+    border-radius: 24px;
 }
 
 .contact-form-box h3 {

@@ -15,7 +15,6 @@ const timeSlots = [
     "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"
 ];
 
-// Gün ve Ay isimleri
 const daysOfWeek = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
 const monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
 
@@ -23,48 +22,38 @@ const Appointment: React.FC = () => {
     const [step, setStep] = useState(1);
     const [selectedService, setSelectedService] = useState<any>(null);
 
-    // Takvim State'leri
-    const [currentDate, setCurrentDate] = useState(new Date()); // Görüntülenen ay
-    const [selectedDateObj, setSelectedDateObj] = useState<Date | null>(null); // Seçilen tarih objesi
-    const [selectedDateString, setSelectedDateString] = useState(''); // YYYY-MM-DD formatı (Firebase için)
+    const [currentDate, setCurrentDate] = useState(new Date());
+    const [selectedDateObj, setSelectedDateObj] = useState<Date | null>(null);
+    const [selectedDateString, setSelectedDateString] = useState('');
 
     const [selectedTime, setSelectedTime] = useState('');
     const [formData, setFormData] = useState({ name: '', phone: '', note: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [bookedSlots, setBookedSlots] = useState<string[]>([]);
 
-    // --- TAKVİM MANTIĞI ---
-    const getDaysInMonth = (date: Date) => {
-        return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    };
+    // Başarılı durumu
+    const [isSuccess, setIsSuccess] = useState(false);
 
+    // --- TAKVİM MANTIĞI ---
+    const getDaysInMonth = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     const getFirstDayOfMonth = (date: Date) => {
-        // 0 = Pazar, 1 = Pazartesi... Bizim takvim Pzt ile başlıyor, ufak bir kaydırma yapıyoruz
         const day = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
         return day === 0 ? 6 : day - 1;
     };
-
-    const changeMonth = (offset: number) => {
-        const newDate = new Date(currentDate.setMonth(currentDate.getMonth() + offset));
-        setCurrentDate(new Date(newDate));
-    };
+    const changeMonth = (offset: number) => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + offset)));
 
     const handleDateClick = (day: number) => {
         const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-        // Geçmiş tarihi seçmeyi engelle
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         if (newDate < today) return;
 
         setSelectedDateObj(newDate);
-        // YYYY-MM-DD formatına çevir (Yerel saat dilimi sorununu aşmak için manuel string yapıyoruz)
         const year = newDate.getFullYear();
         const month = String(newDate.getMonth() + 1).padStart(2, '0');
         const d = String(day).padStart(2, '0');
-        const dateString = `${year}-${month}-${d}`;
-
-        setSelectedDateString(dateString);
-        setSelectedTime(''); // Tarih değişince saati sıfırla
+        setSelectedDateString(`${year}-${month}-${d}`);
+        setSelectedTime('');
     };
 
     // --- DOLU SAATLERİ ÇEKME ---
@@ -72,34 +61,33 @@ const Appointment: React.FC = () => {
         if (selectedDateString) {
             const q = query(collection(db, "booked_slots"), where("date", "==", selectedDateString));
             const unsubscribe = onSnapshot(q, (snapshot) => {
-                const slots = snapshot.docs.map(doc => doc.data().time);
-                setBookedSlots(slots);
+                setBookedSlots(snapshot.docs.map(doc => doc.data().time));
             });
             return () => unsubscribe();
         }
     }, [selectedDateString]);
 
-    // --- INPUT DEĞİŞİKLİĞİ (TELEFON KONTROLÜ DAHİL) ---
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
+        if (name === 'phone' && !/^\d*$/.test(value)) return;
+        setFormData(prevState => ({ ...prevState, [name]: value }));
+    };
 
-        if (name === 'phone') {
-            // Regex: Sadece rakamlara (0-9) izin ver
-            // Eğer girilen değer sadece rakamlardan oluşuyorsa veya boşsa (silme işlemi için) state'i güncelle
-            if (/^\d*$/.test(value)) {
-                setFormData(prevState => ({ ...prevState, [name]: value }));
-            }
-        } else {
-            // Diğer alanlar (name, note) için normal güncelleme
-            setFormData(prevState => ({ ...prevState, [name]: value }));
-        }
+    // YENİ: Formu sıfırlama fonksiyonu
+    const resetForm = () => {
+        setStep(1);
+        setSelectedService(null);
+        setSelectedDateObj(null);
+        setSelectedDateString('');
+        setSelectedTime('');
+        setFormData({ name: '', phone: '', note: '' });
+        setIsSuccess(false); // Başarı mesajını da kapat
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Telefon numarası boş mu kontrolü (HTML required olsa bile ek güvenlik)
         if (!formData.phone) {
             alert("Lütfen telefon numaranızı giriniz.");
             setIsSubmitting(false);
@@ -113,15 +101,20 @@ const Appointment: React.FC = () => {
                 date: selectedDateString,
                 time: selectedTime,
                 clientName: formData.name,
-                clientPhone: formData.phone, // State'den gelen doğru telefon verisi
+                clientPhone: formData.phone,
                 clientNote: formData.note,
                 createdAt: Timestamp.now(),
                 status: 'pending'
             });
-            alert(`Talebiniz Alındı! Sayın ${formData.name}, ön kaydınız oluşturuldu.`);
-            // Sıfırla
-            setStep(1); setSelectedService(null); setSelectedDateObj(null); setSelectedDateString(''); setSelectedTime('');
-            setFormData({ name: '', phone: '', note: '' });
+
+            // 1. Yeşil kutucuğu göster
+            setIsSuccess(true);
+
+            // 2. 3 Saniye sonra (3000ms) otomatik olarak başa dön
+            setTimeout(() => {
+                resetForm();
+            }, 3000);
+
         } catch (error) {
             console.error(error);
             alert("Hata oluştu.");
@@ -130,33 +123,23 @@ const Appointment: React.FC = () => {
         }
     };
 
-    // --- TAKVİM RENDER ---
     const renderCalendar = () => {
         const daysInMonth = getDaysInMonth(currentDate);
         const firstDay = getFirstDayOfMonth(currentDate);
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
+        const today = new Date(); today.setHours(0, 0, 0, 0);
         const blanks = Array(firstDay).fill(null);
         const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
         return (
             <div className="calendar-grid">
                 {daysOfWeek.map(d => <div key={d} className="calendar-day-name">{d}</div>)}
-
                 {blanks.map((_, i) => <div key={`blank-${i}`} className="calendar-day empty"></div>)}
-
                 {days.map(day => {
                     const dateToCheck = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
                     const isPast = dateToCheck < today;
                     const isSelected = selectedDateObj?.getDate() === day && selectedDateObj?.getMonth() === currentDate.getMonth();
-
                     return (
-                        <div
-                            key={day}
-                            className={`calendar-day ${isPast ? 'disabled' : ''} ${isSelected ? 'selected' : ''}`}
-                            onClick={() => !isPast && handleDateClick(day)}
-                        >
+                        <div key={day} className={`calendar-day ${isPast ? 'disabled' : ''} ${isSelected ? 'selected' : ''}`} onClick={() => !isPast && handleDateClick(day)}>
                             {day}
                         </div>
                     );
@@ -168,14 +151,11 @@ const Appointment: React.FC = () => {
     return (
         <section className="appointment-section">
             <div className="appointment-container">
-
-                {/* Üst Bilgi */}
                 <div className="appointment-header">
                     <h2>Randevu Talebi Oluştur</h2>
                     <p>Size en uygun zamanı seçin, değişime başlayın.</p>
                 </div>
 
-                {/* İlerleme Çubuğu */}
                 <div className="progress-track">
                     <div className={`track-step ${step >= 1 ? 'active' : ''}`}>1</div>
                     <div className="track-line"></div>
@@ -185,23 +165,15 @@ const Appointment: React.FC = () => {
                 </div>
 
                 <div className="step-content">
-
-                    {/* ADIM 1: HİZMET SEÇİMİ */}
+                    {/* ADIM 1 */}
                     {step === 1 && (
                         <div className="step-wrapper fade-in">
                             <h3>Bir Hizmet Seçin</h3>
                             <div className="services-grid-new">
                                 {services.map(srv => (
-                                    <div
-                                        key={srv.id}
-                                        className={`service-card-new ${selectedService?.id === srv.id ? 'selected' : ''}`}
-                                        onClick={() => setSelectedService(srv)}
-                                    >
+                                    <div key={srv.id} className={`service-card-new ${selectedService?.id === srv.id ? 'selected' : ''}`} onClick={() => setSelectedService(srv)}>
                                         <div className="srv-icon">{srv.icon}</div>
-                                        <div className="srv-info">
-                                            <h4>{srv.title}</h4>
-                                            <p>{srv.desc}</p>
-                                        </div>
+                                        <div className="srv-info"><h4>{srv.title}</h4><p>{srv.desc}</p></div>
                                         <div className="srv-price">{srv.price}</div>
                                     </div>
                                 ))}
@@ -212,11 +184,10 @@ const Appointment: React.FC = () => {
                         </div>
                     )}
 
-                    {/* ADIM 2: TAKVİM VE SAAT */}
+                    {/* ADIM 2 */}
                     {step === 2 && (
                         <div className="step-wrapper fade-in">
                             <h3>Tarih ve Saat Seçin</h3>
-
                             <div className="calendar-container">
                                 <div className="calendar-header">
                                     <button onClick={() => changeMonth(-1)}>&lt;</button>
@@ -225,28 +196,17 @@ const Appointment: React.FC = () => {
                                 </div>
                                 {renderCalendar()}
                             </div>
-
                             {selectedDateString && (
                                 <div className="time-slots-container">
                                     <h4>Müsait Saatler ({selectedDateString})</h4>
                                     <div className="slots-grid-new">
                                         {timeSlots.map(time => {
                                             const isBooked = bookedSlots.includes(time);
-                                            return (
-                                                <button
-                                                    key={time}
-                                                    disabled={isBooked}
-                                                    className={`slot-btn ${selectedTime === time ? 'active' : ''} ${isBooked ? 'booked' : ''}`}
-                                                    onClick={() => setSelectedTime(time)}
-                                                >
-                                                    {time}
-                                                </button>
-                                            )
+                                            return <button key={time} disabled={isBooked} className={`slot-btn ${selectedTime === time ? 'active' : ''} ${isBooked ? 'booked' : ''}`} onClick={() => setSelectedTime(time)}>{time}</button>
                                         })}
                                     </div>
                                 </div>
                             )}
-
                             <div className="action-row">
                                 <button className="secondary-btn" onClick={() => setStep(1)}>Geri</button>
                                 <button className="primary-btn" disabled={!selectedDateString || !selectedTime} onClick={() => setStep(3)}>İleri</button>
@@ -254,7 +214,7 @@ const Appointment: React.FC = () => {
                         </div>
                     )}
 
-                    {/* ADIM 3: FORM */}
+                    {/* ADIM 3 */}
                     {step === 3 && (
                         <div className="step-wrapper fade-in">
                             <h3>Bilgilerinizi Girin</h3>
@@ -267,28 +227,35 @@ const Appointment: React.FC = () => {
                             <form onSubmit={handleSubmit} className="app-form">
                                 <div className="input-group">
                                     <label>Ad Soyad</label>
-                                    <input type="text" name="name" value={formData.name} required onChange={handleChange} placeholder="Adınız Soyadınız" />
+                                    <input type="text" name="name" value={formData.name} required onChange={handleChange} disabled={isSuccess} placeholder="Adınız Soyadınız" />
                                 </div>
                                 <div className="input-group">
                                     <label>Telefon Numarası</label>
-                                    {/* value propu eklenerek input state'e bağlandı */}
-                                    <input type="tel" name="phone" value={formData.phone} required onChange={handleChange} placeholder="05XX XXX XX XX" />
+                                    <input type="tel" name="phone" value={formData.phone} required onChange={handleChange} disabled={isSuccess} placeholder="05XX XXX XX XX" />
                                 </div>
                                 <div className="input-group">
                                     <label>Notunuz (Opsiyonel)</label>
-                                    <textarea name="note" value={formData.note} rows={3} onChange={handleChange} placeholder="Belirtmek istediğiniz özel bir durum..."></textarea>
+                                    <textarea name="note" value={formData.note} rows={3} onChange={handleChange} disabled={isSuccess} placeholder="Belirtmek istediğiniz özel bir durum..."></textarea>
                                 </div>
 
-                                <div className="info-badge">
-                                    ℹ️ Randevu talebiniz oluşturulduktan sonra onay için sizinle iletişime geçilecektir.
-                                </div>
-
-                                <div className="action-row">
-                                    <button type="button" className="secondary-btn" onClick={() => setStep(2)}>Geri</button>
-                                    <button type="submit" className="primary-btn" disabled={isSubmitting}>
-                                        {isSubmitting ? 'Oluşturuluyor...' : 'Randevuyu Onayla'}
-                                    </button>
-                                </div>
+                                {/* Başarılı ise Butonlar Gider, Yeşil Kutu Gelir */}
+                                {isSuccess ? (
+                                    <div className="success-badge fade-in">
+                                        ✅ Randevu talebiniz başarıyla alındı! Form yenileniyor...
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="info-badge">
+                                            ℹ️ Randevu talebiniz oluşturulduktan sonra onay için sizinle iletişime geçilecektir.
+                                        </div>
+                                        <div className="action-row">
+                                            <button type="button" className="secondary-btn" onClick={() => setStep(2)}>Geri</button>
+                                            <button type="submit" className="primary-btn" disabled={isSubmitting}>
+                                                {isSubmitting ? 'Oluşturuluyor...' : 'Randevuyu Onayla'}
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
                             </form>
                         </div>
                     )}

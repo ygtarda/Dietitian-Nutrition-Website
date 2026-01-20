@@ -313,7 +313,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                 {/* KISALTILMIŞ METİN YERİNE DİREKT METİN (Scroll ile) */}
                                 <p className="message-body">{msg.message}</p>
 
-                                <div className="card-footer"><small>{formatDate(msg.createdAt)}</small><button className="delete-btn" onClick={() => handleDelete('messages', msg.id)}>Sil</button></div>
+                                <div className="card-footer"><small>{formatDate(msg.createdAt)}</small>
+                                    <button className="delete-btn" onClick={() => handleDelete('messages', msg.id)}>Sil</button>
+                                </div>
                             </div>
                         ))}
                     </div>

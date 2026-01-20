@@ -22,7 +22,6 @@ import AdminDashboard from './components/AdminDashboard';
 import BlogList from './components/BlogList';
 import Testimonials from './components/Testimonials';
 import Login from './components/Login';
-import Announcement from './components/Announcement';
 import FAQ from './components/FAQ';
 import Recipes from './components/Recipes';
 import BodyAnalysis from './components/BodyAnalysis';
@@ -130,7 +129,6 @@ const App: React.FC = () => {
 
       {!isLoginPage && (
         <>
-          {!isAdminPage && <Announcement message="🎁 Yeni Online Diyet Paketi Avantajlı Fiyatlarla Başladı!" />}
           <Header diyetisyenAdi={diyetisyenAdi} onLogout={handleLogout} isAdminLinkVisible={isLoggedIn} isAdminPage={isAdminPage} />
         </>
       )}

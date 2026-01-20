@@ -2,7 +2,7 @@
 
 .appointment-section {
     padding: 60px 20px;
-    background-color: #f8fafc;
+    background-color: #fdfefd;
     min-height: 80vh;
     display: flex;
     justify-content: center;
@@ -484,6 +484,55 @@
     border-color: #9ca3af;
     color: #111827;
     background-color: #f9fafb;
+}
+
+/* src/components/Appointment.css - EN ALTA EKLEYİN */
+
+/* Başarı Kutusu Tasarımı */
+.success-badge {
+    background-color: #f0fdf4;
+    /* Çok açık ferah yeşil */
+    color: #166534;
+    /* Okunabilir koyu yeşil */
+    border: 1px solid #bbf7d0;
+    /* İnce yeşil çerçeve */
+
+    padding: 20px;
+    border-radius: 12px;
+    /* Köşeleri yumuşat */
+
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 25px;
+
+    /* Hafif derinlik hissi */
+    box-shadow: 0 4px 15px rgba(187, 247, 208, 0.4);
+
+    /* İçindeki ikonu ve yazıyı hizala */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Animasyon Tanımı */
+.fade-in {
+    animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+        /* Aşağıdan ve hafif küçük başla */
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        /* Yerine otur */
+    }
 }
 
 @media (max-width: 600px) {

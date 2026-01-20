@@ -1,52 +1,68 @@
 /* src/components/Header.css */
 
-/* --- HEADER GENEL --- */
-.header {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e2e8f0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-
-    /* GÜNCELLEME: Fixed yerine Sticky yapıldı */
-    /* Böylece en tepedeyken duyuru görünür, kaydırınca header yapışır */
-    position: -webkit-sticky;
-    /* Safari desteği için */
-    position: sticky;
+/* --- TÜM HEADER YAPISI (Wrapper) --- */
+.header-wrapper {
+    position: fixed;
     top: 0;
-
     left: 0;
     width: 100%;
+    /* KESİN ÇÖZÜM: Ekranı tam kapla */
     z-index: 1000;
-    /* En üst katman */
-    height: 70px;
+    background-color: transparent;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Resetleme */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     display: flex;
-    align-items: center;
-    /* İkonun kesilmesini önlemek için overflow kısıtlaması kaldırıldı */
+    flex-direction: column;
 }
 
-.header.admin-mode {
+/* Header Gizleme */
+.header-wrapper.header-hidden {
+    transform: translateY(-100%);
+}
+
+/* --- NAVBAR ARKA PLANI --- */
+.navbar-content {
+    background-color: #ffffff;
+    height: 70px;
+    /* GÜNCELLEME: 70px -> 60px (Daha ince) */
+    width: 100%;
+    /* Tam genişlik */
+    display: flex;
+    justify-content: center;
+    /* İçeriği ortala */
+    border-bottom: 1px solid #e2e8f0;
+    position: relative;
+    z-index: 1001;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.header-wrapper.admin-mode .navbar-content {
     background-color: #f8fafc;
     border-bottom: 2px solid #7ab800;
 }
 
+/* --- İÇERİK KUTUSU (Ortalı) --- */
 .header-container {
     width: 100%;
-    margin: 0 auto;
-    padding: 0 24px;
+    max-width: 100%;
+    /* GÜNCELLEME: 1200px sınırı kalktı, tam yana yaslandı */
+    padding: 0 40px;
+    /* GÜNCELLEME: Kenar boşluğu artırıldı (daha şık durması için) */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-sizing: border-box;
     height: 100%;
-    position: relative;
-    background-color: inherit;
-    /* Header rengini al */
-    z-index: 1001;
 }
 
-/* --- LOGO --- */
+/* --- DİĞER ELEMENTLER --- */
 .logo h1 {
     margin: 0;
-    font-size: 22px;
+    font-size: 20px;
+    /* Hafif küçültüldü */
     color: #2d3748;
     font-weight: 800;
     letter-spacing: -0.5px;
@@ -71,7 +87,6 @@
     vertical-align: middle;
 }
 
-/* --- NAVİGASYON (Masaüstü) --- */
 .nav-menu {
     display: flex;
     align-items: center;
@@ -88,10 +103,7 @@
     padding: 5px 0;
 }
 
-.nav-menu a:hover {
-    color: #7ab800;
-}
-
+.nav-menu a:hover,
 .active-link {
     color: #7ab800 !important;
 }
@@ -107,26 +119,23 @@
     border-radius: 2px;
 }
 
-/* --- BUTONLAR --- */
 .randevu-button {
     background-color: #7ab800;
     color: white;
     border: none;
     border-radius: 50px;
-    padding: 10px 24px;
+    padding: 8px 22px;
+    /* Buton da biraz inceltildi */
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 4px 10px rgba(108, 126, 58, 0.2);
-    white-space: nowrap;
-    display: inline-block;
 }
 
 .randevu-button:hover {
     background-color: #659602;
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(108, 126, 58, 0.3);
 }
 
 .logout-button {
@@ -138,7 +147,6 @@
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
 }
 
 .logout-button:hover {
@@ -158,18 +166,17 @@
     font-weight: 500;
 }
 
-/* --- MOBİL İÇİN HAMBURGER MENU --- */
 .menu-icon {
     display: none;
     cursor: pointer;
-    padding: 10px;
-    margin-right: -10px;
-    position: relative;
+    padding: 5px;
+    /* Tıklama alanı daraltıldı */
     z-index: 1002;
 }
 
 .nav-icon {
-    width: 24px;
+    width: 20px;
+    /* GÜNCELLEME: 24px -> 20px (Daha küçük ikon) */
     height: 2px;
     background-color: #2d3748;
     display: block;
@@ -189,11 +196,13 @@
 }
 
 .nav-icon::before {
-    top: -7px;
+    top: -6px;
+    /* GÜNCELLEME: -7px -> -6px (Orantılı boşluk) */
 }
 
 .nav-icon::after {
-    top: 7px;
+    top: 6px;
+    /* GÜNCELLEME: 7px -> 6px */
 }
 
 .nav-icon.open {
@@ -210,48 +219,36 @@
     top: 0;
 }
 
-/* --- MOBİL UYUMLULUK (Responsive) --- */
+/* Kampanya çarpısını da küçültmek için ek kural */
+.close-announcement {
+    font-size: 16px !important;
+    /* Eğer varsa küçült */
+}
+
 @media (max-width: 900px) {
     .menu-icon {
         display: block;
     }
 
-    .header-container {
-        padding: 0 20px;
-    }
-
     .nav-menu {
-        /* Sticky header ile uyumlu olması için absolute kullanıyoruz */
-        /* Böylece menü her zaman header'ın hemen altından başlar */
-        position: absolute;
-        top: 100%;
+        position: fixed;
+        top: 0;
         left: 0;
         width: 100%;
         height: 100vh;
-        /* Ekranı kapla */
-
         background-color: white;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        padding-top: 20px;
-        padding-bottom: 50px;
-
-        /* Animasyon */
+        padding-top: 100px;
         opacity: 0;
         visibility: hidden;
         transform: translateY(-10px);
-        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-
-        z-index: 999;
-        border-top: 1px solid #f1f5f9;
-
-        /* İçerik taşarsa menü içinde kaydır */
+        transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+        z-index: 1000;
         overflow-y: auto;
-        overscroll-behavior: contain;
     }
 
-    /* Menü Açıkken */
     .nav-menu.active {
         opacity: 1;
         visibility: visible;
@@ -265,15 +262,12 @@
         border-bottom: 1px solid #f8fafc;
         display: block;
         font-size: 18px;
-        color: #2d3748;
     }
 
     .randevu-button {
-        display: block;
         width: 80%;
         margin-top: 30px;
         padding: 15px;
-        font-size: 16px;
     }
 
     .active-link::after {
@@ -282,7 +276,6 @@
 
     .active-link {
         background-color: #f0fdf4;
-        color: #166534 !important;
     }
 
     .admin-nav {
