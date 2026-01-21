@@ -28,6 +28,7 @@ import BodyAnalysis from './components/BodyAnalysis';
 import WhatsAppButton from './components/WhatsAppButton';
 import ScrollToTop from './components/ScrollToTop'; // Yukarı kaydırma bileşeni
 import PageTransition from './components/PageTransition'; // Animasyon bileşeni
+import GiftSurprise from './components/GiftSurprise';
 
 // Tipler
 export interface BlogPost {
@@ -49,7 +50,10 @@ export interface Recipe {
   preparation: string;
 }
 
+
+
 const App: React.FC = () => {
+
   const currentYear = new Date().getFullYear();
   const diyetisyenAdi = "Uzman Diyetisyen Gül Ödek";
 
@@ -57,11 +61,16 @@ const App: React.FC = () => {
   const navigate = useNavigate();
 
   // --- STATE'LER ---
+  const [showSurprise, setShowSurprise] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAuthChecking, setIsAuthChecking] = useState(true);
 
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+
+  const handleSurpriseComplete = () => {
+    setShowSurprise(false);
+  };
 
   // --- 1. AUTH VE VERİ ÇEKME ---
   useEffect(() => {
@@ -83,7 +92,6 @@ const App: React.FC = () => {
 
   const handleLogout = async () => {
     await signOut(auth);
-    alert("Başarıyla çıkış yapıldı.");
   };
 
   const addBlogPost = async (newPost: Omit<BlogPost, 'id' | 'date'>) => {
@@ -124,7 +132,13 @@ const App: React.FC = () => {
   const isLoginPage = location.pathname === '/login';
 
   return (
+
     <>
+      <GiftSurprise
+        isActive={showSurprise}
+        onComplete={handleSurpriseComplete}
+      />
+
       <ScrollToTop /> {/* Sayfa değişince en üste atar */}
 
       {!isLoginPage && (
@@ -145,7 +159,7 @@ const App: React.FC = () => {
 
                 {/* ÖZELLİKLER BÖLÜMÜ */}
                 <div style={{ padding: '60px 20px', textAlign: 'center', backgroundColor: '#fff' }}>
-                  <h2 style={{ color: '#6c7e3a', fontSize: '28px', marginBottom: '40px', fontWeight: '700' }}>Neden Diyetisyen Gül Ödek?</h2>
+                  <h2 style={{ color: '#1a202c;', fontSize: '28px', marginBottom: '40px', fontWeight: '700' }}>Neden Diyetisyen Gül Ödek?</h2>
                   <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '40px' }}>
                     <div style={{ maxWidth: '300px' }}>
                       <div style={{ fontSize: '40px', marginBottom: '15px' }}>🔬</div>

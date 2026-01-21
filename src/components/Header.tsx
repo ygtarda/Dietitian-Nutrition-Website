@@ -28,24 +28,18 @@ const Header: React.FC<HeaderProps> = ({ diyetisyenAdi, onLogout, isAdminPage = 
     const isActive = (path: string) => location.pathname === path ? 'active-link' : '';
     const closeMenu = () => setIsMenuOpen(false);
 
-    // --- 1. DİNAMİK BOŞLUK AYARI (Gerçek Çözüm) ---
-    // Header'ın yüksekliği değiştiğinde (örn: kampanya kapandığında) body padding'ini güncelle
+    // --- 1. DİNAMİK BOŞLUK AYARI ---
     useEffect(() => {
         const updatePagePadding = () => {
             if (headerRef.current) {
                 const headerHeight = headerRef.current.offsetHeight;
-                // Body'ye header kadar boşluk ver, böylece içerik asla altta kalmaz
                 document.body.style.paddingTop = `${headerHeight}px`;
             }
         };
 
-        // İlk açılışta çalıştır
         updatePagePadding();
-
-        // Pencere boyutu değişirse çalıştır
         window.addEventListener('resize', updatePagePadding);
 
-        // Kampanya durumu değiştiğinde DOM güncellendikten hemen sonra çalışması için
         const observer = new ResizeObserver(() => {
             updatePagePadding();
         });
@@ -57,10 +51,9 @@ const Header: React.FC<HeaderProps> = ({ diyetisyenAdi, onLogout, isAdminPage = 
         return () => {
             window.removeEventListener('resize', updatePagePadding);
             observer.disconnect();
-            // Component silinirse padding'i temizle
             document.body.style.paddingTop = '0px';
         };
-    }, [showCampaign]); // Kampanya durumu değişince tetikle
+    }, [showCampaign]);
 
     // --- 2. MOBİL MENÜ SCROLL KİLİDİ ---
     useEffect(() => {
@@ -126,13 +119,15 @@ const Header: React.FC<HeaderProps> = ({ diyetisyenAdi, onLogout, isAdminPage = 
             <div className="navbar-content">
                 <div className="header-container">
                     <div className="logo">
-                        <Link to="/" onClick={closeMenu} style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <h1>
-                                {diyetisyenAdi}
-                                <span className="admin-badge">{isAdminPage ? '| Panel' : ''}</span>
-                            </h1>
+                        <Link to="/" onClick={closeMenu} className="logo-link">
+                            <div className="logo-text-group">
+                                <h1>
+                                    {diyetisyenAdi}
+                                    <span className="admin-badge">{isAdminPage ? '| Panel' : ''}</span>
+                                </h1>
+                                {!isAdminPage && <span className="slogan">Sağlıklı Yaşam Ortağınız</span>}
+                            </div>
                         </Link>
-                        {!isAdminPage && <span className="slogan">Sağlıklı Yaşam Ortağınız</span>}
                     </div>
 
                     <div className="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -155,7 +150,10 @@ const Header: React.FC<HeaderProps> = ({ diyetisyenAdi, onLogout, isAdminPage = 
                         ) : (
                             <div className="admin-nav">
                                 <span className="welcome-text">Hoşgeldiniz</span>
-                                <button onClick={() => { onLogout(); closeMenu(); }} className="logout-button">Çıkış Yap</button>
+                                {/* ÇIKIŞ BUTONU: Doğrudan onLogout çağrılır, msgbox yoktur */}
+                                <button onClick={() => { onLogout(); closeMenu(); }} className="logout-button">
+                                    Çıkış Yap
+                                </button>
                             </div>
                         )}
                     </nav>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import './Footer.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface FooterProps {
     diyetisyenAdi: string;
@@ -10,7 +10,7 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ diyetisyenAdi, telifHakkiYili }) => {
-    const navigate = useNavigate();
+
 
     return (
         <footer className="footer-section">
@@ -67,9 +67,6 @@ const Footer: React.FC<FooterProps> = ({ diyetisyenAdi, telifHakkiYili }) => {
                 <div className="copyright">
                     &copy; {telifHakkiYili} <span className="highlight">{diyetisyenAdi}</span>. Tüm Hakları Saklıdır.
                 </div>
-                <button onClick={() => navigate('/login')} className="admin-footer-link">
-                    Yönetici Girişi 🔒
-                </button>
             </div>
         </footer>
     );

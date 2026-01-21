@@ -148,14 +148,15 @@
 
 /* Yönetici Giriş Butonu (Sadeleştirildi ve Renkler Düzeltildi) */
 .admin-footer-link {
-    background: none;
+
+    background: #1a202c;
     border: none;
     /* Çerçeveyi kaldırdık */
-    color: #52525b;
+    color: #1a202c;
     /* Koyu gri (neredeyse siyah) - Nötr renk */
     padding: 5px 10px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 14px;
     transition: all 0.3s;
     opacity: 0.6;
     /* Fazla dikkat çekmesin */
@@ -164,7 +165,7 @@
 }
 
 .admin-footer-link:hover {
-    color: #d4d4d8;
+    color: #52525b;
     /* Hover'da açık gri/beyazımsı */
     opacity: 1;
     text-decoration: none;

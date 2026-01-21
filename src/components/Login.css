@@ -143,18 +143,31 @@
 }
 
 .back-link {
-    background: none;
+    width: 100%;
+    padding: 7px;
+    background-color: #2d3748;
+    color: white;
     border: none;
-    color: #718096;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: color 0.2s;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .back-link:hover {
-    color: #2d3748;
-    text-decoration: underline;
+    background-color: #1a202c;
+    transform: translateY(-1px);
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Yükleniyor animasyonu (Spinner) */

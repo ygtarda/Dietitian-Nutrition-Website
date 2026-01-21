@@ -6,12 +6,9 @@
     top: 0;
     left: 0;
     width: 100%;
-    /* KESİN ÇÖZÜM: Ekranı tam kapla */
     z-index: 1000;
     background-color: transparent;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* Resetleme */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -19,7 +16,6 @@
     flex-direction: column;
 }
 
-/* Header Gizleme */
 .header-wrapper.header-hidden {
     transform: translateY(-100%);
 }
@@ -27,13 +23,11 @@
 /* --- NAVBAR ARKA PLANI --- */
 .navbar-content {
     background-color: #ffffff;
-    height: 70px;
-    /* GÜNCELLEME: 70px -> 60px (Daha ince) */
+    height: 60px;
+    /* İnce header */
     width: 100%;
-    /* Tam genişlik */
     display: flex;
     justify-content: center;
-    /* İçeriği ortala */
     border-bottom: 1px solid #e2e8f0;
     position: relative;
     z-index: 1001;
@@ -45,24 +39,43 @@
     border-bottom: 2px solid #7ab800;
 }
 
-/* --- İÇERİK KUTUSU (Ortalı) --- */
+/* --- İÇERİK KUTUSU --- */
 .header-container {
     width: 100%;
     max-width: 100%;
-    /* GÜNCELLEME: 1200px sınırı kalktı, tam yana yaslandı */
     padding: 0 40px;
-    /* GÜNCELLEME: Kenar boşluğu artırıldı (daha şık durması için) */
+    /* Kenar boşluğu */
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 100%;
 }
 
-/* --- DİĞER ELEMENTLER --- */
+/* --- LOGO ALANI DÜZENLEMESİ --- */
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.header-logo-img {
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
+}
+
+.logo-text-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .logo h1 {
     margin: 0;
-    font-size: 20px;
-    /* Hafif küçültüldü */
+    font-size: 19px;
     color: #2d3748;
     font-weight: 800;
     letter-spacing: -0.5px;
@@ -87,6 +100,7 @@
     vertical-align: middle;
 }
 
+/* --- DİĞER ELEMENTLER --- */
 .nav-menu {
     display: flex;
     align-items: center;
@@ -125,7 +139,6 @@
     border: none;
     border-radius: 50px;
     padding: 8px 22px;
-    /* Buton da biraz inceltildi */
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
@@ -170,13 +183,11 @@
     display: none;
     cursor: pointer;
     padding: 5px;
-    /* Tıklama alanı daraltıldı */
     z-index: 1002;
 }
 
 .nav-icon {
     width: 20px;
-    /* GÜNCELLEME: 24px -> 20px (Daha küçük ikon) */
     height: 2px;
     background-color: #2d3748;
     display: block;
@@ -197,12 +208,10 @@
 
 .nav-icon::before {
     top: -6px;
-    /* GÜNCELLEME: -7px -> -6px (Orantılı boşluk) */
 }
 
 .nav-icon::after {
     top: 6px;
-    /* GÜNCELLEME: 7px -> 6px */
 }
 
 .nav-icon.open {
@@ -219,10 +228,8 @@
     top: 0;
 }
 
-/* Kampanya çarpısını da küçültmek için ek kural */
 .close-announcement {
     font-size: 16px !important;
-    /* Eğer varsa küçült */
 }
 
 @media (max-width: 900px) {
