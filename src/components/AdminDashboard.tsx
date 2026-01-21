@@ -81,6 +81,33 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
     const [replyingTo, setReplyingTo] = useState<string | null>(null);
     const [replyText, setReplyText] = useState('');
 
+    // --- CUSTOM UI STATE (CONFIRM & ALERT REPLACEMENT) ---
+    // window.confirm yerine geçecek modal state'i
+    const [confirmModal, setConfirmModal] = useState<{
+        show: boolean;
+        message: string;
+        onConfirm: (() => Promise<void>) | null;
+    }>({ show: false, message: '', onConfirm: null });
+
+    // alert yerine geçecek toast (bildirim) state'i
+    const [toast, setToast] = useState<{
+        show: boolean;
+        message: string;
+        type: 'success' | 'error' | 'info';
+    }>({ show: false, message: '', type: 'info' });
+
+    // Yardımcı Fonksiyon: Toast Göster
+    const triggerToast = (message: string, type: 'success' | 'error' | 'info') => {
+        setToast({ show: true, message, type });
+        // 3 saniye sonra otomatik kapan
+        setTimeout(() => setToast(prev => ({ ...prev, show: false })), 3000);
+    };
+
+    // Yardımcı Fonksiyon: Modal Kapat
+    const closeConfirmModal = () => {
+        setConfirmModal({ show: false, message: '', onConfirm: null });
+    };
+
     // Verileri Çek
     useEffect(() => {
         const qMessages = query(collection(db, "messages"), orderBy("createdAt", "desc"));
@@ -96,30 +123,41 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
         return () => { unsubMessages(); unsubTestimonials(); unsubAppointments(); };
     }, []);
 
-    // --- GENEL SİLME FONKSİYONU (Düzeltilmiş Tek Versiyon) ---
-    // Bu fonksiyon hem normal silme yapar hem de randevu silinirse takvimi temizler.
+    // --- GENEL SİLME FONKSİYONU (DÜZELTİLDİ: MODAL KİLİTLENME SORUNU ÇÖZÜLDÜ) ---
+    // KRİTİK DEĞİŞİKLİK: closeConfirmModal() fonksiyonu, async işlem başlamadan ÖNCE çağrılıyor.
+    // Bu sayede modal anında kapanıyor ve 'stuck' (donma) durumu engelleniyor.
     const handleDelete = async (col: string, id: string) => {
-        if (window.confirm("Bu öğeyi kalıcı olarak silmek istediğinize emin misiniz?")) {
-            try {
-                // 1. Önce asıl veriyi sil
-                await deleteDoc(doc(db, col, id));
+        setConfirmModal({
+            show: true,
+            message: "Bu öğeyi kalıcı olarak silmek istediğinize emin misiniz?",
+            onConfirm: async () => {
+                // 1. ADIM: MODAL'I HEMEN KAPAT (UI Cevap versin)
+                closeConfirmModal();
 
-                // 2. Eğer silinen şey bir 'randevu' ise, takvimdeki (booked_slots) kaydını da bul ve sil
-                if (col === 'appointments') {
-                    const q = query(collection(db, "booked_slots"), where("appointmentId", "==", id));
-                    const snapshot = await getDocs(q);
-                    snapshot.forEach(async (d) => {
-                        await deleteDoc(d.ref);
-                    });
+                // 2. ADIM: İŞLEMİ ARKAPLANDA YAP
+                try {
+                    await deleteDoc(doc(db, col, id));
+
+                    // Eğer silinen şey bir 'randevu' ise, takvimdeki (booked_slots) kaydını da bul ve sil
+                    if (col === 'appointments') {
+                        const q = query(collection(db, "booked_slots"), where("appointmentId", "==", id));
+                        const snapshot = await getDocs(q);
+                        snapshot.forEach(async (d) => {
+                            await deleteDoc(d.ref);
+                        });
+                    }
+                    // Başarılı olursa toast göster
+                    triggerToast("Başarıyla silindi.", "success");
+                } catch (e) {
+                    console.error(e);
+                    // Hata olursa hata toast'ı göster
+                    triggerToast("Silinirken bir hata oluştu.", "error");
                 }
-            } catch (e) {
-                console.error(e);
-                alert("Silinirken bir hata oluştu.");
             }
-        }
+        });
     };
 
-    // --- RANDEVU YÖNETİMİ (GÜNCELLENDİ: Senkronizasyonlu) ---
+    // --- RANDEVU YÖNETİMİ ---
     const handleAppointmentStatus = async (appointment: Appointment, newStatus: 'approved' | 'rejected') => {
         try {
             // 1. Ana randevu tablosunu güncelle
@@ -142,29 +180,42 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 });
             }
 
-            alert(newStatus === 'approved' ? "Randevu Onaylandı ve Takvim Kapatıldı! ✅" : "Randevu Reddedildi ve Takvim Açıldı. ❌");
+            // alert(...) -> Custom Toast
+            triggerToast(
+                newStatus === 'approved' ? "Randevu Onaylandı ve Takvim Kapatıldı! ✅" : "Randevu Reddedildi ve Takvim Açıldı. ❌",
+                newStatus === 'approved' ? 'success' : 'info'
+            );
         } catch (error) {
             console.error(error);
-            alert("Hata oluştu.");
+            triggerToast("Durum güncellenirken hata oluştu.", "error");
         }
     };
 
 
-    // --- YORUM İŞLEMLERİ ---
+    // --- YORUM İŞLEMLERİ (SİLME MODALI DÜZELTİLDİ) ---
+    // KRİTİK DEĞİŞİKLİK: Burada da closeConfirmModal en başa alındı.
     const handleDeleteReply = async (id: string) => {
-        if (window.confirm("Sadece cevabınızı silmek istediğinize emin misiniz?")) {
-            try {
-                const testimonialRef = doc(db, "testimonials", id);
-                await updateDoc(testimonialRef, {
-                    reply: deleteField(),
-                    replyDate: deleteField()
-                });
-                alert("Cevap silindi.");
-            } catch (error) {
-                console.error(error);
-                alert("Hata oluştu.");
+        setConfirmModal({
+            show: true,
+            message: "Sadece cevabınızı silmek istediğinize emin misiniz?",
+            onConfirm: async () => {
+                // 1. HEMEN KAPAT
+                closeConfirmModal();
+
+                // 2. İŞLEM YAP
+                try {
+                    const testimonialRef = doc(db, "testimonials", id);
+                    await updateDoc(testimonialRef, {
+                        reply: deleteField(),
+                        replyDate: deleteField()
+                    });
+                    triggerToast("Cevap başarıyla silindi.", "success");
+                } catch (error) {
+                    console.error(error);
+                    triggerToast("Cevap silinirken hata oluştu.", "error");
+                }
             }
-        }
+        });
     };
 
     const handleEditReply = (t: Testimonial) => {
@@ -176,11 +227,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
         if (!replyText.trim()) return;
         try {
             await updateDoc(doc(db, "testimonials", id), { reply: replyText, replyDate: Timestamp.now() });
-            setReplyText(''); setReplyingTo(null); alert("Cevap güncellendi!");
-        } catch (error) { alert("Hata oluştu."); }
+            setReplyText(''); setReplyingTo(null);
+            // Başarı Bildirimi
+            triggerToast("Cevap başarıyla gönderildi/güncellendi!", "success");
+        } catch (error) {
+            console.error(error);
+            // Hata Bildirimi
+            triggerToast("Cevap gönderilirken hata oluştu.", "error");
+        }
     };
 
-    // --- BLOG İŞLEMLERİ ---
+    // --- BLOG İŞLEMLERİ (TAMAMEN TOAST SİSTEMİNE GEÇİRİLDİ & ALERT ENGELLENDİ) ---
 
     // Düzenlemeyi Başlat
     const startEditBlog = (post: BlogPost) => {
@@ -204,6 +261,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
     const handleBlogSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
+
+        // [KRİTİK ÇÖZÜM]: Parent component'in alert fırlatmasını engellemek için
+        // window.alert fonksiyonunu geçici olarak 'boş' bir fonksiyonla değiştiriyoruz.
+        const originalAlert = window.alert;
+        window.alert = () => { }; // Alert'i sustur (No-op)
+
         try {
             const blogData = {
                 title: blogTitle,
@@ -215,17 +278,27 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
             if (blogId) {
                 // Güncelleme Modu
                 await onUpdatePost(blogId, blogData);
+                triggerToast("Blog yazısı başarıyla güncellendi.", "success");
             } else {
                 // Yeni Ekleme Modu
                 await onAddPost(blogData);
+                triggerToast("Yeni blog yazısı başarıyla yayınlandı.", "success");
             }
 
             cancelEditBlog(); // Formu temizle
-        } catch (e) { console.error(e); }
-        finally { setIsSubmitting(false); }
+        } catch (e) {
+            console.error(e);
+            // Hata Durumu (Kullanıcıya Bildir)
+            triggerToast("İşlem sırasında bir hata oluştu. Lütfen tekrar deneyin.", "error");
+        }
+        finally {
+            // [KRİTİK ÇÖZÜM SONU]: window.alert'i eski haline getir.
+            window.alert = originalAlert;
+            setIsSubmitting(false);
+        }
     };
 
-    // --- TARİF İŞLEMLERİ ---
+    // --- TARİF İŞLEMLERİ (TAMAMEN TOAST SİSTEMİNE GEÇİRİLDİ & ALERT ENGELLENDİ) ---
 
     // Düzenlemeyi Başlat
     const startEditRecipe = (rec: Recipe) => {
@@ -253,6 +326,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
     const handleRecipeSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
+
+        // [KRİTİK ÇÖZÜM]: Parent component'in alert fırlatmasını engellemek için
+        // window.alert fonksiyonunu geçici olarak 'boş' bir fonksiyonla değiştiriyoruz.
+        const originalAlert = window.alert;
+        window.alert = () => { }; // Alert'i sustur (No-op)
+
         try {
             const ingredientsArray = recIngredients.split('\n').filter(line => line.trim() !== '');
             const recipeData = {
@@ -267,14 +346,24 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
             if (recId) {
                 // Güncelleme
                 await onUpdateRecipe(recId, recipeData);
+                triggerToast("Tarif başarıyla güncellendi.", "success");
             } else {
                 // Yeni Ekleme
                 await onAddRecipe(recipeData);
+                triggerToast("Yeni tarif başarıyla eklendi.", "success");
             }
 
             cancelEditRecipe();
-        } catch (e) { console.error(e); }
-        finally { setIsSubmitting(false); }
+        } catch (e) {
+            console.error(e);
+            // Hata Durumu (Kullanıcıya Bildir)
+            triggerToast("Tarif kaydedilirken bir hata oluştu.", "error");
+        }
+        finally {
+            // [KRİTİK ÇÖZÜM SONU]: window.alert'i eski haline getir.
+            window.alert = originalAlert;
+            setIsSubmitting(false);
+        }
     };
 
     const formatDate = (ts: any) => ts ? new Date(ts.seconds * 1000).toLocaleDateString('tr-TR') : '';
@@ -479,8 +568,29 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     </div>
                 )}
 
-
             </div>
+
+            {/* --- CUSTOM MODAL & TOAST COMPONENTS (UI LAYOUT İÇİN SONA EKLENDİ) --- */}
+            {/* 1. Custom Modal Overlay */}
+            {confirmModal.show && (
+                <div className="custom-modal-overlay">
+                    <div className="custom-modal">
+                        <h3>Onay Gerekiyor</h3>
+                        <p>{confirmModal.message}</p>
+                        <div className="custom-modal-actions">
+                            <button className="modal-cancel-btn" onClick={closeConfirmModal}>Vazgeç</button>
+                            <button className="modal-confirm-btn" onClick={() => confirmModal.onConfirm && confirmModal.onConfirm()}>Evet, Onayla</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 2. Custom Toast Notification */}
+            {toast.show && (
+                <div className={`custom-toast ${toast.type}`}>
+                    {toast.message}
+                </div>
+            )}
         </section>
     );
 };

@@ -28,6 +28,10 @@ const Testimonials: React.FC = () => {
     const [charCount, setCharCount] = useState(0);
     const [showLimitWarning, setShowLimitWarning] = useState(false);
 
+    // --- YENİ: FORM DURUM BİLDİRİMİ (ALERT YERİNE) ---
+    // msgbox yerine formun içinde görünecek durum mesajı state'i
+    const [formStatus, setFormStatus] = useState<{ msg: string; type: 'error' | 'success' } | null>(null);
+
     // Sayfalandırma
     const [currentPage, setCurrentPage] = useState(1);
     const COMMENTS_PER_PAGE = 3;
@@ -44,6 +48,14 @@ const Testimonials: React.FC = () => {
         });
         return () => unsubscribe();
     }, []);
+
+    // Form açıldığında/kapandığında hata mesajını ve validasyonları temizle
+    useEffect(() => {
+        if (!showForm) {
+            setFormStatus(null);
+            setShowLimitWarning(false); // Form kapanınca uyarıyı da temizle
+        }
+    }, [showForm]);
 
     // --- YORUM DEĞİŞİKLİĞİ VE KARAKTER KONTROLÜ ---
     const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -84,9 +96,16 @@ const Testimonials: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!newName.trim() || !newComment.trim()) return alert("Lütfen tüm alanları doldurun.");
+
+        // VALIDASYON: Boş alan kontrolü (Alert kaldırıldı -> Inline hata)
+        if (!newName.trim() || !newComment.trim()) {
+            setFormStatus({ msg: "Lütfen tüm alanları doldurun.", type: 'error' });
+            return;
+        }
 
         setIsSubmitting(true);
+        setFormStatus(null);
+
         try {
             await addDoc(collection(db, "testimonials"), {
                 name: newName,
@@ -94,15 +113,33 @@ const Testimonials: React.FC = () => {
                 rating: Number(newRating),
                 date: Timestamp.now()
             });
-            setNewName('');
-            setNewComment('');
-            setCharCount(0); // Sayacı sıfırla
-            setNewRating(5);
-            setShowForm(false);
-            setCurrentPage(1);
-            alert("Yorumunuz başarıyla eklendi!");
-        } catch (error) { console.error(error); alert("Hata oluştu."); }
-        finally { setIsSubmitting(false); }
+
+            // [SCROLL JUMP FIX]: Formu hemen kapatmıyoruz!
+            // Formu açık tutuyoruz ve kullanıcıya başarı mesajı gösteriyoruz.
+            // Bu sayede DOM yüksekliği değişmiyor ve SCROLL KAYMIYOR.
+            setFormStatus({ msg: "Yorumunuz başarıyla yayınlandı! Form kapatılıyor...", type: 'success' });
+
+            // 2 saniye bekleyip sonra temizlik ve kapanış yapıyoruz
+            setTimeout(() => {
+                setNewName('');
+                setNewComment('');
+                setCharCount(0);
+                setNewRating(5);
+                setShowLimitWarning(false); // Validasyon uyarısını temizle
+
+                setShowForm(false); // Form şimdi kapanıyor
+                setFormStatus(null);
+                setIsSubmitting(false); // Buton kilidini aç
+                setCurrentPage(1); // İlk sayfaya dön
+            }, 2000);
+
+        } catch (error) {
+            console.error(error);
+            // Hata durumunda hemen bildirim göster ve kilidi aç
+            setFormStatus({ msg: "Bir hata oluştu. Lütfen tekrar deneyin.", type: 'error' });
+            setIsSubmitting(false);
+        }
+        // finally bloğu kaldırıldı çünkü success durumunda timeout içinde yönetiyoruz.
     };
 
     const renderStars = (rating: number) => {
@@ -183,6 +220,14 @@ const Testimonials: React.FC = () => {
                                 </div>
                             )}
                         </div>
+
+                        {/* YENİ: FORM DURUM MESAJI (Alert yerine) */}
+                        {formStatus && (
+                            <div className={`form-status-msg ${formStatus.type}`}>
+                                {formStatus.type === 'error' ? '⚠️ ' : '✅ '}
+                                {formStatus.msg}
+                            </div>
+                        )}
 
                         <button type="submit" className="submit-comment-btn" disabled={isSubmitting}>
                             {isSubmitting ? "Gönderiliyor..." : "YORUMU YAYINLA"}

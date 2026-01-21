@@ -155,7 +155,7 @@
 
 .submit-comment-btn {
     width: 100%;
-    background-color: #7ab800;
+    background-color: #6c7e3a;
     /* Ana yeşil renk */
     color: white;
     padding: 15px;
@@ -171,9 +171,9 @@
 }
 
 submit-comment-btn:hover:not(:disabled) {
-    background-color: rgba(108, 126, 58, 0.3);
-    /* Hover'da koyu yeşil */
-    transform: translateY(-1px);
+    background-color: #5a6b2f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(108, 126, 58, 0.3);
 }
 
 .submit-comment-btn:disabled {
@@ -485,6 +485,31 @@ submit-comment-btn:hover:not(:disabled) {
     75% {
         transform: translateX(5px);
     }
+}
+
+
+
+/* --- YENİ EKLENEN FORM STATÜ STİLLERİ --- */
+.form-status-msg {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    animation: slideDown 0.3s ease;
+}
+
+.form-status-msg.error {
+    background-color: #fef2f2;
+    color: #ef4444;
+    border: 1px solid #fee2e2;
+}
+
+.form-status-msg.success {
+    background-color: #f0fdf4;
+    color: #166534;
+    border: 1px solid #dcfce7;
 }
 
 /* Mobil Uyumluluk */
