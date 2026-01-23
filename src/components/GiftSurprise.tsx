@@ -52,7 +52,7 @@ const GiftSurprise: React.FC<GiftSurpriseProps> = ({ isActive, onComplete }) => 
         setStars(newStars);
 
         // B) Yüzen Kalpler
-        const newHearts = Array.from({ length: 50 }).map(() => ({
+        const newHearts = Array.from({ length: 70 }).map(() => ({
             '--left': `${Math.random() * 100}%`,
             '--duration': `${4 + Math.random() * 6}s`,
             '--delay': `${Math.random() * 2}s`,
@@ -148,7 +148,7 @@ const GiftSurprise: React.FC<GiftSurpriseProps> = ({ isActive, onComplete }) => 
         }
 
         // Havai Fişekler (Merkez)
-        const fireworkCount = isMobile ? 30 : 100;
+        const fireworkCount = isMobile ? 30 : 80;
         for (let i = 0; i < fireworkCount; i++) {
             const angle = Math.random() * 360;
             const velocity = (isMobile ? 150 : 250) + Math.random() * (isMobile ? 150 : 350);

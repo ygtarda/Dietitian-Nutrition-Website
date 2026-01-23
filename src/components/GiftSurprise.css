@@ -1,4 +1,4 @@
-/* --- GiftSurprise.css - RESPONSIVE & REALISTIC CONFETTI SHAPES --- */
+/* --- GiftSurprise.css - FIXED (NO ROTATION) --- */
 
 /* 1. SAHNE VE ATMOSFER */
 .gs-overlay {
@@ -15,11 +15,8 @@
     align-items: center;
     overflow: hidden;
     perspective: 1200px;
-
-    /* SAFARI FONT DÜZELTMESİ: Yazıların daha tok görünmesini sağlar */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    touch-action: none;
+    overscroll-behavior: none;
 }
 
 .note-body {
@@ -32,16 +29,21 @@
     transition: opacity 1.5s ease-in-out;
 }
 
-/* 2. ATMOSFERİK EFEKTLER */
+/* 2. ATMOSFERİK EFEKTLER (DÜZELTİLDİ: ARTIK DÖNMÜYOR) */
 .gs-god-rays {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 200vmax;
-    height: 200vmax;
-    background: radial-gradient(circle, rgba(255, 215, 0, 0.03) 0%, transparent 50%);
+    width: 150vmax;
+    /* Boyut biraz küçültüldü çünkü artık dönmüyor, kenar riski yok */
+    height: 150vmax;
+
+    /* Morumsu ışık efekti sabit duruyor */
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 60%);
+
+    /* Transform sabitlendi, animasyon kaldırıldı */
     transform: translate(-50%, -50%);
-    animation: gs-rotate-slow 60s linear infinite;
+
     pointer-events: none;
     z-index: 1;
 }
@@ -51,13 +53,9 @@
     background: #fff;
     border-radius: 50%;
     opacity: 0.8;
+    will-change: opacity, transform;
+    transform: translateZ(0);
     animation: gs-twinkle 3s ease-in-out infinite alternate;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-
-    /* SAFARI PERFORMANS: Donanım hızlandırma */
-    will-change: transform, opacity;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
 }
 
 /* 3. HEDİYE KUTUSU */
@@ -68,12 +66,14 @@
     cursor: pointer;
     z-index: 100;
     transform-style: preserve-3d;
+    will-change: transform;
+    transform: translateZ(0);
     animation: gs-float-space 5s ease-in-out infinite;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .gs-gift-wrapper:hover {
-    transform: scale(1.05) rotateX(10deg) rotateY(5deg);
+    transform: scale(1.05) rotateX(10deg) rotateY(5deg) translateZ(0);
     filter: brightness(1.2);
 }
 
@@ -113,7 +113,7 @@
     top: 0;
     bottom: 0;
     width: 60px;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateZ(0);
 }
 
 .gs-ribbon.horizontal {
@@ -121,12 +121,12 @@
     left: 0;
     right: 0;
     height: 60px;
-    transform: translateY(-50%);
+    transform: translateY(-50%) translateZ(0);
     z-index: 101;
 }
 
 .gs-gift-wrapper.gs-open .gs-lid {
-    transform: translateY(-400px) rotate(-120deg) scale(1.5);
+    transform: translateY(-400px) rotate(-120deg) scale(1.5) translateZ(0);
     opacity: 0;
 }
 
@@ -141,16 +141,12 @@
     font-size: 24px;
     opacity: 0;
     z-index: 50;
+    will-change: transform, opacity;
+    transform: translateZ(0);
     animation: gs-float-up var(--duration) ease-in-out infinite;
     animation-delay: var(--delay);
     left: var(--left);
     bottom: -10%;
-    filter: drop-shadow(0 0 10px rgba(255, 246, 249, 0.6));
-
-    /* SAFARI PERFORMANS: Donanım hızlandırma */
-    will-change: transform;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
 }
 
 .gs-firework {
@@ -160,12 +156,8 @@
     border-radius: 50%;
     z-index: 70;
     pointer-events: none;
-    box-shadow: 0 0 15px currentColor;
-
-    /* SAFARI PERFORMANS: Donanım hızlandırma */
     will-change: transform, opacity;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 /* --- WRAPPER SİSTEMİ --- */
@@ -182,14 +174,15 @@
 
 .gs-cannon-wrapper.gs-cannon-right {
     right: 30px;
-    transform: scaleX(-1);
+    transform: scaleX(-1) translateZ(0);
 }
 
 .gs-cannon-inner {
     font-size: 5rem;
     opacity: 0;
-    transform: scale(0.5);
+    transform: scale(0.5) translateZ(0);
     transform-origin: center center;
+    will-change: transform;
 }
 
 .gs-cannon-fire {
@@ -199,52 +192,45 @@
 @keyframes gs-cannon-sequence {
     0% {
         opacity: 0;
-        transform: scale(0.5) rotate(0deg);
+        transform: scale(0.5) rotate(0deg) translateZ(0);
     }
 
     15% {
         opacity: 1;
-        transform: scale(1.1) rotate(0deg);
+        transform: scale(1.1) rotate(0deg) translateZ(0);
     }
 
     40% {
-        transform: scale(1) rotate(0deg);
+        transform: scale(1) rotate(0deg) translateZ(0);
     }
 
     50% {
-        transform: scale(1.15) rotate(0deg);
+        transform: scale(1.15) rotate(0deg) translateZ(0);
     }
 
     60% {
-        transform: scale(0.9) rotate(0deg);
+        transform: scale(0.9) rotate(0deg) translateZ(0);
     }
 
     70% {
-        transform: scale(1.4) rotate(-15deg);
+        transform: scale(1.4) rotate(-15deg) translateZ(0);
     }
 
     100% {
         opacity: 0;
-        transform: scale(1.5) rotate(-20deg);
+        transform: scale(1.5) rotate(-20deg) translateZ(0);
     }
 }
 
-/* --- DÜZENSİZ KONFETİ ŞEKİLLERİ (NO SQUARE/CIRCLE) --- */
-
+/* --- DÜZENSİZ KONFETİ ŞEKİLLERİ --- */
 .gs-projectile {
     position: absolute;
     z-index: 140;
     opacity: 0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-
-    /* SAFARI PERFORMANS: Kasma engelleme */
     will-change: transform, opacity;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    transform: translate3d(0, 0, 0);
+    transform: translateZ(0);
 }
 
-/* Strip: İnce uzun şerit (Düzgün değil, eğik) */
 .gs-shape-strip {
     width: 8px !important;
     height: 18px !important;
@@ -252,17 +238,14 @@
     transform: skewY(20deg);
 }
 
-/* Shard: Üçgenimsi ama düzensiz parça */
 .gs-shape-shard {
     clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 80%);
 }
 
-/* Bit: Küçük kırpıntı (Rastgele köşe) */
 .gs-shape-bit {
     border-radius: 3px;
     transform: skew(15deg) rotate(10deg);
 }
-
 
 @keyframes gs-projectile-launch {
     0% {
@@ -290,12 +273,12 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -40%) scale(0.6);
+    transform: translate(-50%, -40%) scale(0.6) translateZ(0);
     width: 90%;
     max-width: 650px;
-    background: rgba(20, 20, 20, 0.4);
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    background: rgba(20, 20, 20, 0.2);
+    backdrop-filter: blur(7px) saturate(100%);
+    -webkit-backdrop-filter: blur(7px) saturate(100%);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 50px 100px rgba(0, 0, 0, 0.9);
     padding: 60px 40px;
@@ -304,8 +287,6 @@
     opacity: 0;
     pointer-events: none;
     z-index: 200;
-
-    /* SAFARI RENDER FIX */
     will-change: transform, opacity;
 }
 
@@ -321,7 +302,7 @@
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
 }
 
 .gs-message {
@@ -329,7 +310,7 @@
     line-height: 1.6;
     color: #eee;
     margin-bottom: 50px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
 }
 
 .gs-action-btn {
@@ -345,29 +326,24 @@
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+    transform: translateZ(0);
 }
 
 .gs-action-btn:hover {
-    transform: scale(1.1);
+    transform: scale(1.1) translateZ(0);
     box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
 }
 
 /* KEYFRAMES */
-@keyframes gs-rotate-slow {
-    to {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
-}
-
 @keyframes gs-twinkle {
     0% {
         opacity: 0.3;
-        transform: scale(0.8);
+        transform: scale(0.8) translateZ(0);
     }
 
     100% {
         opacity: 1;
-        transform: scale(1.2);
+        transform: scale(1.2) translateZ(0);
     }
 }
 
@@ -375,27 +351,27 @@
 
     0%,
     100% {
-        transform: translateY(0) rotateX(0);
+        transform: translateY(0) rotateX(0) translateZ(0);
     }
 
     50% {
-        transform: translateY(-30px) rotateX(5deg);
+        transform: translateY(-30px) rotateX(5deg) translateZ(0);
     }
 }
 
 @keyframes gs-box-explode {
     0% {
-        transform: scale(1);
+        transform: scale(1) translateZ(0);
         opacity: 1;
     }
 
     50% {
-        transform: scale(1.1);
+        transform: scale(1.1) translateZ(0);
         opacity: 1;
     }
 
     100% {
-        transform: scale(0);
+        transform: scale(0) translateZ(0);
         opacity: 0;
         filter: blur(20px);
     }
@@ -403,7 +379,7 @@
 
 @keyframes gs-float-up {
     0% {
-        transform: translateY(0) translateX(0) rotate(0deg);
+        transform: translateY(0) translateX(0) rotate(0deg) translateZ(0);
         opacity: 0;
     }
 
@@ -412,7 +388,7 @@
     }
 
     100% {
-        transform: translateY(-120vh) translateX(var(--sway)) rotate(var(--rot));
+        transform: translateY(-120vh) translateX(var(--sway)) rotate(var(--rot)) translateZ(0);
         opacity: 0;
     }
 }
@@ -420,29 +396,24 @@
 @keyframes gs-card-enter {
     to {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
+        transform: translate(-50%, -50%) scale(1) translateZ(0);
     }
 }
 
 @keyframes gs-explode-particle {
     0% {
-        transform: translate(0, 0) scale(1);
+        transform: translate(0, 0) scale(1) translateZ(0);
         opacity: 1;
     }
 
     100% {
-        transform: translate(var(--tx), var(--ty)) scale(0);
+        transform: translate(var(--tx), var(--ty)) scale(0) translateZ(0);
         opacity: 0;
     }
 }
 
-
-
 /* --- RESPONSIVE MEDIA QUERIES --- */
-
 @media (max-width: 768px) {
-
-    /* Başlık ve Metin Küçültme */
     .gs-title {
         font-size: 2rem;
     }
@@ -457,19 +428,16 @@
         font-size: 1rem;
     }
 
-    /* Kutu Boyutu */
     .gs-gift-wrapper {
         width: 200px;
         height: 200px;
     }
 
-    /* Kart Genişliği */
     .gs-card-container {
         width: 95%;
         padding: 40px 20px;
     }
 
-    /* Cannon İkonları */
     .gs-cannon-inner {
         font-size: 3rem;
     }
