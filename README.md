@@ -66,5 +66,3 @@ A modern, fully responsive web application designed for Expert Dietitian Gül Ö
 * [GitHub](https://github.com/ygtarda)
 * [LinkedIn](https://www.linkedin.com/in/arda-yigit/)
 
----
-*Developed with ❤️ for Dyt. Gül Ödek*
