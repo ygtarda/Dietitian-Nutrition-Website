@@ -1,73 +1,70 @@
-# React + TypeScript + Vite
+# 🥗 Uzman Diyetisyen  - Professional Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, fully responsive web application designed for Expert Dietitian Gül Ödek. This project serves as a digital office, offering online appointment booking, content management for blogs/recipes, and a comprehensive admin dashboard.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🌟 User Experience (Client Side)
+* **Modern & Responsive UI:** Fully responsive design that works seamlessly on mobile, tablet, and desktop devices.
+* **Online Appointment System:**
+    * Step-by-step booking wizard (Service Selection -> Date & Time -> Contact Info).
+    * Real-time availability check using Firebase Firestore.
+    * Visual calendar interface.
+* **Content Pages:** About Me, Services, Blog & Healthy Recipes, and Contact pages.
+* **Interactive Elements:**
+    * Dynamic "Smart Navbar" that hides/shows on scroll.
+    * Custom toast notifications (instead of default alerts).
+    * Glassmorphism effects and smooth CSS animations.
+* **SEO Optimized:** Meta tags, semantic HTML structure, and dynamic document titles.
 
-## React Compiler
+### 🛡️ Admin Dashboard (Protected)
+* **Secure Login:** Hidden administrative route with authentication.
+* **Appointment Management:** View, approve, or delete appointment requests.
+* **CMS Capabilities:** Easy-to-use interface for updating site content.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+* **Frontend:** React.js, TypeScript
+* **Build Tool:** Vite
+* **Styling:** CSS3 (Custom Modules), Responsive Design
+* **Backend / Database:** Firebase (Firestore)
+* **Routing:** React Router DOM
+* **Notifications:** React Toastify
+* **Deployment:** Vercel / Netlify / Firebase Hosting
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📦 Installation & Setup
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1.  **Clone the repository**
+    ```bash
+    git clone [https://github.com/ygtarda/dietitan-nutrition-wesite.git](https://github.com/ygtarda/dietitan-nutrition-wesite.git)
+    cd project-name
+    ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3.  **Firebase Configuration**
+    * Create a `.env` file in the root directory.
+    * Add your Firebase config keys:
+        ```env
+        VITE_FIREBASE_API_KEY=your_api_key
+        VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+        ...
+        ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+4.  **Run the project**
+    ```bash
+    npm run dev
+    ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 👤 Author
+
+**[Arda Yiğit]**
+* [GitHub](https://github.com/ygtarda)
+* [LinkedIn](https://www.linkedin.com/in/arda-yigit/)
+
+---
+*Developed with ❤️ for Dyt. Gül Ödek*
