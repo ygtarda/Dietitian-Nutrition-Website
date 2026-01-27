@@ -38,7 +38,7 @@ A modern, fully responsive web application designed for Expert Dietitian Gül Ö
 1.  **Clone the repository**
     ```bash
     git clone [https://github.com/ygtarda/dietitan-nutrition-wesite.git](https://github.com/ygtarda/dietitan-nutrition-wesite.git)
-    cd project-name
+    cd dietitan-nutrition-wesite
     ```
 
 2.  **Install dependencies**
@@ -51,7 +51,7 @@ A modern, fully responsive web application designed for Expert Dietitian Gül Ö
     * Add your Firebase config keys:
         ```env
         VITE_FIREBASE_API_KEY=your_api_key
-        VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+        VITE_FIREBASE_AUTH_DOMAIN=dietitan-nutrition-wesite.firebaseapp.com
         ...
         ```
 
