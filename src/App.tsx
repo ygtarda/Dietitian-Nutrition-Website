@@ -6,7 +6,7 @@ import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-
 // Animasyon Kütüphanesi
 import { AnimatePresence } from 'framer-motion';
 // Firebase
-import { db, auth } from './firebase';
+import { auth, db } from "./firebase";
 import { collection, addDoc, onSnapshot, query, orderBy, updateDoc, doc } from 'firebase/firestore';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 
@@ -28,7 +28,7 @@ import BodyAnalysis from './components/BodyAnalysis';
 import WhatsAppButton from './components/WhatsAppButton';
 import ScrollToTop from './components/ScrollToTop'; // Yukarı kaydırma bileşeni
 import PageTransition from './components/PageTransition'; // Animasyon bileşeni
-import GiftSurprise from './components/GiftSurprise';
+// import GiftSurprise from './components/GiftSurprise';
 
 // Tipler
 export interface BlogPost {
@@ -61,16 +61,16 @@ const App: React.FC = () => {
   const navigate = useNavigate();
 
   // --- STATE'LER ---
-  const [showSurprise, setShowSurprise] = useState(true);
+  // const [showSurprise, setShowSurprise] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAuthChecking, setIsAuthChecking] = useState(true);
 
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
-  const handleSurpriseComplete = () => {
-    setShowSurprise(false);
-  };
+  // const handleSurpriseComplete = () => {
+  //   setShowSurprise(false);
+  // };
 
   // --- 1. AUTH VE VERİ ÇEKME ---
   useEffect(() => {
@@ -134,10 +134,10 @@ const App: React.FC = () => {
   return (
 
     <>
-      <GiftSurprise
+      {/* <GiftSurprise
         isActive={showSurprise}
         onComplete={handleSurpriseComplete}
-      />
+      /> */}
 
       <ScrollToTop /> {/* Sayfa değişince en üste atar */}
 
